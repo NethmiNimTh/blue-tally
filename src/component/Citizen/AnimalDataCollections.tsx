@@ -372,7 +372,7 @@ const AnimalDataCollection = () => {
 
         if (response.ok) {
             Alert.alert("Success", "Observation submitted successfully!");
-            navigation.navigate('CreditInterface', { observationData: data.data });
+            navigation.navigate('CreditInterface', { observationData: data.data, observationType: 'animal' });
         } else {
             Alert.alert("Error", data.message || "Failed to submit observation");
         }

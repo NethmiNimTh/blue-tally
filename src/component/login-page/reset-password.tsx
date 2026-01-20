@@ -206,7 +206,7 @@ const ResetPassword = ({navigation, route}) => {
           <CustomAlert
             visible={isAlertVisible}
             onClose={hideAlert}
-            message="Successfully Registered!"
+            language="en"
           />
 
           {loading ? (

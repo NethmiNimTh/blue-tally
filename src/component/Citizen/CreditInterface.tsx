@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, SafeAreaView, Platform } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, SafeAreaView, Platform, Alert, ActivityIndicator } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { plantApi } from '../../api/plantapi';
+import { natureApi } from '../../api/natureApi';
+import { animalApi } from '../../api/animalApi';
 
 // component
 const PhotoInformation = () => {
     const navigation = useNavigation();
+    const route = useRoute();
+    const { observationData, observationType } = route.params || {};
     const [currentLanguage, setCurrentLanguage] = useState('en');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [contactInfo, setContactInfo] = useState('');
     const [canUsePhoto, setCanUsePhoto] = useState('Yes');
@@ -26,7 +32,11 @@ const PhotoInformation = () => {
             no: 'No',
             photoCreditLabel: 'Photo credit:',
             photoCreditPlaceholder: 'How should we credit this photo?',
-            submit: 'Submit'
+            submit: 'Submit',
+            success: 'Success',
+            submissionSuccess: 'Photo information saved successfully!',
+            submissionFailed: 'Submission Failed',
+            tryAgain: 'Please try again later.'
         },
         si: {
             headerTitle: 'ඡායාරූප තොරතුරු',
@@ -40,7 +50,11 @@ const PhotoInformation = () => {
             no: 'නැත',
             photoCreditLabel: 'ඡායාරූප ණය:',
             photoCreditPlaceholder: 'මෙම ඡායාරූපය සඳහා අප කෙසේ ණය දිය යුතුද?',
-            submit: 'ඉදිරිපත් කරන්න'
+            submit: 'ඉදිරිපත් කරන්න',
+            success: 'සාර්ථකයි',
+            submissionSuccess: 'ඡායාරූප තොරතුරු සාර්ථකව සුරකින ලදී!',
+            submissionFailed: 'ඉදිරිපත් කිරීම අසාර්ථකයි',
+            tryAgain: 'කරුණාකර පසුව නැවත උත්සාහ කරන්න.'
         },
         ta: {
             headerTitle: 'புகைப்பட தகவல்',
@@ -54,7 +68,11 @@ const PhotoInformation = () => {
             no: 'இல்லை',
             photoCreditLabel: 'புகைப்பட வரவு:',
             photoCreditPlaceholder: 'இந்த புகைப்படத்தை எவ்வாறு வரவு வைக்க வேண்டும்?',
-            submit: 'சமர்ப்பிக்கவும்'
+            submit: 'சமர்ப்பிக்கவும்',
+            success: 'வெற்றி',
+            submissionSuccess: 'புகைப்பட தகவல் வெற்றிகரமாக சேமிக்கப்பட்டது!',
+            submissionFailed: 'சமர்ப்பிப்பு தோல்வியடைந்தது',
+            tryAgain: 'பின்னர் மீண்டும் முயற்சிக்கவும்.'
         }
     };
 
@@ -77,14 +95,68 @@ const PhotoInformation = () => {
     // Get current translations
     const t = translations[currentLanguage] || translations.en;
 
-    const handleSubmit = () => {
-        const photoInformation = {
-            contactInfo,
-            canUsePhoto,
-            photoCredit
-        };
-        console.log('Submit photo information:', photoInformation);
-        navigation.goBack();
+    const handleSubmit = async () => {
+        setIsSubmitting(true);
+
+        try {
+            const photoInfo = {
+                contactInfo: contactInfo.trim() || undefined,
+                canUsePhoto: canUsePhoto === 'Yes',
+                photoCredit: photoCredit.trim() || undefined
+            };
+
+            console.log('Submitting photo information:', photoInfo);
+            console.log('Observation type:', observationType);
+
+            // Get the observation ID
+            const observationId = observationData?._id || observationData?.id;
+
+            if (observationId) {
+                // Call the appropriate API based on observation type
+                switch (observationType) {
+                    case 'plant':
+                        await plantApi.updatePlantPhotoInfo(observationId, photoInfo);
+                        break;
+                    case 'nature':
+                        await natureApi.updateNaturePhotoInfo(observationId, photoInfo);
+                        break;
+                    case 'animal':
+                        await animalApi.updateAnimalPhotoInfo(observationId, photoInfo);
+                        break;
+                    case 'humanActivity':
+                        // Human activity doesn't have a backend yet, just log
+                        console.log('Human activity photo info (no backend):', photoInfo);
+                        break;
+                    default:
+                        console.log('Unknown observation type:', observationType);
+                }
+            }
+
+            Alert.alert(
+                t.success,
+                t.submissionSuccess,
+                [
+                    {
+                        text: 'OK',
+                        onPress: () => {
+                            // Navigate to CitizenDashboard
+                            navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'CitizenDashboard' }],
+                            });
+                        },
+                    },
+                ]
+            );
+        } catch (error) {
+            console.error('Error submitting photo information:', error);
+            Alert.alert(
+                t.submissionFailed,
+                error.message || t.tryAgain
+            );
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -164,12 +236,17 @@ const PhotoInformation = () => {
                         </View>
 
                         {/* Submit Button */}
-                        <TouchableOpacity 
-                            style={styles.submitButton}
+                        <TouchableOpacity
+                            style={[styles.submitButton, isSubmitting && styles.submitButtonDisabled]}
                             onPress={handleSubmit}
                             activeOpacity={0.8}
+                            disabled={isSubmitting}
                         >
-                            <Text style={styles.submitButtonText}>{t.submit}</Text>
+                            {isSubmitting ? (
+                                <ActivityIndicator color="#FFFFFF" />
+                            ) : (
+                                <Text style={styles.submitButtonText}>{t.submit}</Text>
+                            )}
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -318,6 +395,9 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontWeight: 'bold',
         fontFamily: 'JejuHallasan-Regular',
+    },
+    submitButtonDisabled: {
+        backgroundColor: '#8AAB91',
     },
 });
 

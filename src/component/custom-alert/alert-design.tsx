@@ -1,25 +1,33 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Modal, Image } from 'react-native';
-import { Button } from 'react-native-paper';
-import FastImage from 'react-native-fast-image';
+import React from 'react';
+import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface CustomAlertProps {
   visible: boolean;
   onClose: () => void;
-  message: string;
+  language?: 'en' | 'si' | 'ta'; // English, Sinhala, Tamil
 }
 
-const CustomAlert: React.FC<CustomAlertProps> = ({ visible, onClose, message }) => {
-  useEffect(() => {
-    if (visible) {
-      const timer = setTimeout(() => {
-        onClose();
-      }, 3000);
+const translations = {
+  en: {
+    title: 'Success !',
+    message: 'Your form has been successfully submitted! We\'ll get back to you soon.',
+    button: 'Continue',
+  },
+  si: {
+    title: 'සාර්ථකයි !',
+    message: 'ඔබගේ තොරතුරු ඇතුළත් කිරීම සාර්ථකව සිදුකරන ලදි.',
+    button: 'ඉදිරියට',
+  },
+  ta: {
+    title: 'சிறப்பு!',
+    message: 'உங்களுடைய தரவு வெற்றிகரமாக சமர்ப்பிக்கப்பட்டுள்ளது.',
+    button: 'தொடரவும்',
+  },
+};
 
-      // Clear timeout if the component unmounts before the timeout completes
-      return () => clearTimeout(timer);
-    }
-  }, [visible, onClose]);
+const CustomAlert: React.FC<CustomAlertProps> = ({ visible, onClose, language = 'en' }) => {
+  const t = translations[language] || translations.en;
 
   return (
     <Modal
@@ -30,12 +38,21 @@ const CustomAlert: React.FC<CustomAlertProps> = ({ visible, onClose, message }) 
     >
       <View style={styles.overlay}>
         <View style={styles.alertContainer}>
-          <Text style={styles.alertMessage}>{message}</Text>
-          <FastImage
-            style={styles.iconStyles}
-            source={require('../../assets/image/done.gif')}
-            resizeMode={FastImage.resizeMode.contain}
-          />
+          {/* Checkmark Icon */}
+          <View style={styles.iconContainer}>
+            <Icon name="check-circle" size={80} color="#22C55E" />
+          </View>
+
+          {/* Title */}
+          <Text style={styles.title}>{t.title}</Text>
+
+          {/* Message */}
+          <Text style={styles.message}>{t.message}</Text>
+
+          {/* Continue Button */}
+          <TouchableOpacity style={styles.button} onPress={onClose} activeOpacity={0.8}>
+            <Text style={styles.buttonText}>{t.button}</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -50,25 +67,43 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   alertContainer: {
-    width: 250,
-    padding: 20,
-    backgroundColor: 'white',
-    borderRadius: 10,
+    width: 320,
+    paddingVertical: 30,
+    paddingHorizontal: 25,
+    backgroundColor: '#F0FDF4',
+    borderRadius: 20,
     alignItems: 'center',
   },
-  alertMessage: {
-    fontSize: 18,
-    marginBottom: 10,
-    color: 'black',
-    fontWeight: '600',
+  iconContainer: {
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#1F2937',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  message: {
+    fontSize: 16,
+    color: '#4B5563',
+    textAlign: 'center',
+    lineHeight: 24,
+    marginBottom: 25,
+    paddingHorizontal: 10,
+  },
+  button: {
+    backgroundColor: '#22C55E',
+    paddingVertical: 14,
+    paddingHorizontal: 50,
+    borderRadius: 25,
+    minWidth: 180,
+    alignItems: 'center',
   },
   buttonText: {
-    fontSize: 16, // Set your desired font size here
-  },
-  iconStyles: {
-    width: 100,
-    height: 100,
-    marginBottom: 10, // Optional: Add margin if needed
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
 

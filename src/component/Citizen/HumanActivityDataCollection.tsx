@@ -293,7 +293,7 @@ const HumanActivityDataCollection = () => {
             description
         };
         console.log('Submit observation:', observationData);
-        navigation.navigate('CreditInterface', { observationData });
+        navigation.navigate('CreditInterface', { observationData, observationType: 'humanActivity' });
     };
 
     const formatDate = (date) => {

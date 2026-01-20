@@ -2257,7 +2257,7 @@ const EditCount = () => {
         <CustomAlert
                   visible={isAlertVisible}
                   onClose={hideAlert}
-                  message="Successfully saved Edited count!"
+                  language="en"
                 />
  
             <Button

@@ -36,6 +36,21 @@ export const natureApi = {
       throw error.response?.data || { message: error.message };
     }
   },
+
+  updateNaturePhotoInfo: async (natureId, photoInfo) => {
+    try {
+      console.log('📤 Updating nature photo information...');
+      const response = await axiosInstance.patch(`/nature/${natureId}/photo-info`, photoInfo);
+      console.log('✅ Nature photo information updated successfully');
+      return response.data;
+    } catch (error) {
+      console.error('❌ Update Nature Photo Info Error:', error.response?.data || error.message);
+      throw error.response?.data || {
+        success: false,
+        message: error.message || 'Network error'
+      };
+    }
+  },
 };
 
 console.log('✅ natureApi module loaded successfully');

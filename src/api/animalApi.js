@@ -59,6 +59,22 @@ export const animalApi = {
       throw error.response?.data || { message: error.message };
     }
   },
+
+  // Update animal photo information
+  updateAnimalPhotoInfo: async (animalId, photoInfo) => {
+    try {
+      console.log('📤 Updating animal photo information...');
+      const response = await axiosInstance.patch(`/animals/${animalId}/photo-info`, photoInfo);
+      console.log('✅ Animal photo information updated successfully');
+      return response.data;
+    } catch (error) {
+      console.error('❌ Update Animal Photo Info Error:', error.response?.data || error.message);
+      throw error.response?.data || {
+        success: false,
+        message: error.message || 'Network error'
+      };
+    }
+  },
 };
 
 // Log to verify module is loaded

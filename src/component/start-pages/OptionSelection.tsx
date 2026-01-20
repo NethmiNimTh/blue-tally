@@ -1,6 +1,6 @@
 //import libraries
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Platform, BackHandler } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Platform, BackHandler, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -25,7 +25,7 @@ const OptionSelection = () => {
     };
 
     const handleScientistPress = () => {
-        navigation.navigate('ScientistDashboard'); // Navigate to Scientist Dashboard
+        Alert.alert('Coming Soon', 'Scientist Dashboard is under development.');
     };
 
     const handleBackPress = () => {
@@ -33,7 +33,7 @@ const OptionSelection = () => {
     };
 
     const handleHomePress = () => {
-        navigation.navigate('Home'); // Navigate to Home screen
+        navigation.navigate('StartPage'); // Navigate to Home screen
     };
 
     const handleLanguagePress = () => {

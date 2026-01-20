@@ -1728,7 +1728,7 @@ const renderSelectedBehaviours = () => {
                 <CustomAlert
                   visible={isAlertVisible}
                   onClose={hideAlert}
-                  message="Successfully saved data!"
+                  language="en"
                 />
 
                 <Button

@@ -326,8 +326,9 @@ const PlantDataCollection = () => {
                                 setDescription('');
                                 
                                 // Navigate to CreditInterface with the response data
-                                navigation.navigate('CreditInterface', { 
-                                    observationData: response.data 
+                                navigation.navigate('CreditInterface', {
+                                    observationData: response.data,
+                                    observationType: 'plant'
                                 });
                             },
                         },

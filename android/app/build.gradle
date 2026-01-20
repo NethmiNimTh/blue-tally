@@ -29,13 +29,13 @@ android {
     
 signingConfigs {
     debug {
-        storeFile file('D:/new-mangrove-main/android/dms.keystore')
+        storeFile file('../dms.keystore')
         storePassword '123456'
         keyAlias 'dms'
         keyPassword '123456'
     }
     release {
-        storeFile file('D:/new-mangrove-main/android/dms.keystore')
+        storeFile file('../dms.keystore')
         storePassword '123456'
         keyAlias 'dms'
         keyPassword '123456'

@@ -317,8 +317,9 @@ const NatureDataCollection = () => {
                                 setDescription('');
                                 
                                 // Navigate to CreditInterface
-                                navigation.navigate('CreditInterface', { 
-                                    observationData: response.data 
+                                navigation.navigate('CreditInterface', {
+                                    observationData: response.data,
+                                    observationType: 'nature'
                                 });
                             },
                         },

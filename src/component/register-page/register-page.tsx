@@ -98,6 +98,7 @@ const RegisterPage = () => {
         if (status === 'ok') {
           console.log('isAccount:', isAccount, 'isDelete:', isDelete);
           saveUserToSQLite(email, password); // Save new user in SQLite
+          showAlert(); // Show success alert
         } else {
           // Handle user already exists case
           console.log('isAccount:', isAccount, 'isDelete:', isDelete);
@@ -316,7 +317,7 @@ const RegisterPage = () => {
           <CustomAlert
             visible={isAlertVisible}
             onClose={hideAlert}
-            message="Successfully Registered!"
+            language="en"
           />
 
           {loading ? (
