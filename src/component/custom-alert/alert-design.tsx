@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
     color: '#1F2937',
     marginBottom: 15,
     textAlign: 'center',
+    fontFamily: 'serif',
   },
   message: {
     fontSize: 16,
@@ -91,6 +92,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     marginBottom: 25,
     paddingHorizontal: 10,
+    fontFamily: 'serif',
   },
   button: {
     backgroundColor: '#22C55E',
@@ -104,6 +106,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: '600',
+    fontFamily: 'serif',
   },
 });
 

@@ -21,6 +21,7 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNFS from 'react-native-fs';
 import { animalApi } from '../../api/animalApi';
+import CustomAlert from '../custom-alert/alert-design';
 
 // Custom Radio Button Component
 const CustomRadioButton = ({ selected, onPress, disabled }) => (
@@ -45,6 +46,7 @@ const AnimalDataCollection = () => {
     const category = route.params?.category || 'Animal';
     const [currentLanguage, setCurrentLanguage] = useState('en');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isAlertVisible, setIsAlertVisible] = useState(false);
 
     const [animalType, setAnimalType] = useState('');
     const [showAnimalPicker, setShowAnimalPicker] = useState(false);
@@ -371,8 +373,7 @@ const AnimalDataCollection = () => {
         const data = await response.json();
 
         if (response.ok) {
-            Alert.alert("Success", "Observation submitted successfully!");
-            navigation.navigate('CreditInterface', { observationData: data.data, observationType: 'animal' });
+            setIsAlertVisible(true);
         } else {
             Alert.alert("Error", data.message || "Failed to submit observation");
         }
@@ -420,8 +421,7 @@ const AnimalDataCollection = () => {
                     {/* Animal Type Dropdown */}
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>
-                            {lang.animalType} <Text style={styles.required}>*</Text>
-                        </Text>
+                            {lang.animalType}                        </Text>
                         <TouchableOpacity 
                             style={styles.dropdown}
                             onPress={() => setShowAnimalPicker(true)}
@@ -437,8 +437,7 @@ const AnimalDataCollection = () => {
                     {/* Photo Upload */}
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>
-                            {lang.photo} <Text style={styles.required}>*</Text>
-                        </Text>
+                            {lang.photo}                        </Text>
                         <TouchableOpacity 
                             style={styles.photoUploadArea}
                             onPress={handlePhotoUpload}
@@ -471,8 +470,7 @@ const AnimalDataCollection = () => {
                     {/* Date Picker */}
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>
-                            {lang.date} <Text style={styles.required}>*</Text>
-                        </Text>
+                            {lang.date}                        </Text>
                         <TouchableOpacity 
                             style={styles.dateInput}
                             onPress={() => setShowDatePicker(true)}
@@ -495,8 +493,7 @@ const AnimalDataCollection = () => {
                     {/* Time of Day - Custom Radio Buttons */}
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>
-                            {lang.timeOfDay} <Text style={styles.required}>*</Text>
-                        </Text>
+                            {lang.timeOfDay}                        </Text>
                         <View style={styles.radioContainer}>
                             <View style={styles.radioRow}>
                                 <TouchableOpacity 
@@ -685,6 +682,16 @@ const AnimalDataCollection = () => {
                     </View>
                 </View>
             </Modal>
+
+            {/* Success Alert */}
+            <CustomAlert
+                visible={isAlertVisible}
+                onClose={() => {
+                    setIsAlertVisible(false);
+                    navigation.goBack();
+                }}
+                language={currentLanguage as 'en' | 'si' | 'ta'}
+            />
         </SafeAreaView>
     );
 }
@@ -716,7 +723,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 32,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
         color: '#4A7856',
         fontWeight: 'bold',
     },
@@ -731,7 +738,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         marginBottom: 8,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     required: {
         color: '#E74C3C',
@@ -750,7 +757,7 @@ const styles = StyleSheet.create({
     dropdownText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     placeholder: {
         color: '#999',
@@ -772,7 +779,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontSize: 14,
         color: '#999',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     photoContainer: {
         width: '100%',
@@ -820,7 +827,7 @@ const styles = StyleSheet.create({
     dateText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     // Custom Radio Button Styles
     customRadio: {
@@ -862,7 +869,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         marginLeft: 5,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     textArea: {
         borderWidth: 1,
@@ -873,7 +880,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         minHeight: 100,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     submitButton: {
         backgroundColor: '#4A7856',
@@ -905,7 +912,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#FFFFFF',
         fontWeight: 'bold',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     // Modal Styles
     modalOverlay: {
@@ -943,7 +950,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: '#333',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     modalCloseButton: {
         padding: 5,
@@ -960,7 +967,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#4A7856',
         marginBottom: 12,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     animalGrid: {
         flexDirection: 'row',
@@ -983,7 +990,7 @@ const styles = StyleSheet.create({
     animalOptionText: {
         fontSize: 15,
         color: '#333',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     animalOptionTextSelected: {
         color: '#FFFFFF',
@@ -1023,7 +1030,7 @@ const styles = StyleSheet.create({
         color: '#333',
         textAlign: 'center',
         marginBottom: 25,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     imagePickerOptions: {
         flexDirection: 'row',
@@ -1045,7 +1052,7 @@ const styles = StyleSheet.create({
         color: '#333',
         marginTop: 10,
         fontWeight: '600',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     imagePickerCancelButton: {
         backgroundColor: '#F5F5F5',
@@ -1059,7 +1066,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#666',
         fontWeight: '600',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
 });
 

@@ -7,6 +7,7 @@ import { RadioButton } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomAlert from '../custom-alert/alert-design';
 
 // component
 const HumanActivityDataCollection = () => {
@@ -14,6 +15,7 @@ const HumanActivityDataCollection = () => {
     const route = useRoute();
     const category = route.params?.category || 'Human Activity';
     const [currentLanguage, setCurrentLanguage] = useState('en');
+    const [isAlertVisible, setIsAlertVisible] = useState(false);
 
     const [activityType, setActivityType] = useState('');
     const [showActivityPicker, setShowActivityPicker] = useState(false);
@@ -80,7 +82,7 @@ const HumanActivityDataCollection = () => {
             timeOfDay: 'දවසේ වේලාව',
             description: 'විස්තරය (අත්‍යවශ්‍ය නොවේ)',
             submit: 'ඉදිරිපත් කරන්න',
-            photoPlaceholder: 'ඡායාරූපයක් උඩුගත කිරීමට හෝ ග්‍රහණය කිරීමට තට්ටු කරන්න',
+            photoPlaceholder: 'ඡායාරූපය ගැනීම/ ඇතුලත් කිරීම මෙහිදී සිදු කරන්න',
             chooseOption: 'විකල්පයක් තෝරන්න',
             camera: 'කැමරාව',
             gallery: 'ගැලරිය',
@@ -293,7 +295,7 @@ const HumanActivityDataCollection = () => {
             description
         };
         console.log('Submit observation:', observationData);
-        navigation.navigate('CreditInterface', { observationData, observationType: 'humanActivity' });
+        setIsAlertVisible(true);
     };
 
     const formatDate = (date) => {
@@ -332,7 +334,7 @@ const HumanActivityDataCollection = () => {
                 <View style={styles.formContainer}>
                     {/* Activity Type Dropdown */}
                     <View style={styles.inputGroup}>
-                        <Text style={styles.label}>{t.activityType} <Text style={styles.required}>*</Text></Text>
+                        <Text style={styles.label}>{t.activityType}</Text>
                         <TouchableOpacity 
                             style={styles.dropdown}
                             onPress={() => setShowActivityPicker(true)}
@@ -346,7 +348,7 @@ const HumanActivityDataCollection = () => {
 
                     {/* Photo Upload */}
                     <View style={styles.inputGroup}>
-                        <Text style={styles.label}>{t.photo} <Text style={styles.required}>*</Text></Text>
+                        <Text style={styles.label}>{t.photo}</Text>
                         <TouchableOpacity 
                             style={styles.photoUploadArea}
                             onPress={handlePhotoUpload}
@@ -376,7 +378,7 @@ const HumanActivityDataCollection = () => {
 
                     {/* Date Picker */}
                     <View style={styles.inputGroup}>
-                        <Text style={styles.label}>{t.date} <Text style={styles.required}>*</Text></Text>
+                        <Text style={styles.label}>{t.date}</Text>
                         <TouchableOpacity 
                             style={styles.dateInput}
                             onPress={() => setShowDatePicker(true)}
@@ -396,7 +398,7 @@ const HumanActivityDataCollection = () => {
 
                     {/* Time of Day */}
                     <View style={styles.inputGroup}>
-                        <Text style={styles.label}>{t.timeOfDay} <Text style={styles.required}>*</Text></Text>
+                        <Text style={styles.label}>{t.timeOfDay}</Text>
                         <View style={styles.radioContainer}>
                             <View style={styles.radioRow}>
                                 <TouchableOpacity 
@@ -571,6 +573,22 @@ const HumanActivityDataCollection = () => {
                     </View>
                 </View>
             </Modal>
+
+            {/* Success Alert */}
+            <CustomAlert
+                visible={isAlertVisible}
+                onClose={() => {
+                    setIsAlertVisible(false);
+                    // Reset form
+                    setActivityType('');
+                    setPhoto(null);
+                    setDate(new Date());
+                    setTimeOfDay('');
+                    setDescription('');
+                    navigation.goBack();
+                }}
+                language={currentLanguage as 'en' | 'si' | 'ta'}
+            />
         </SafeAreaView>
     );
 }
@@ -602,7 +620,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 32,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
         color: '#4A7856',
         fontWeight: 'bold',
     },
@@ -617,7 +635,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         marginBottom: 8,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     required: {
         color: '#E74C3C',
@@ -636,7 +654,7 @@ const styles = StyleSheet.create({
     dropdownText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     placeholder: {
         color: '#999',
@@ -658,7 +676,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontSize: 14,
         color: '#999',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     photoContainer: {
         width: '100%',
@@ -706,7 +724,7 @@ const styles = StyleSheet.create({
     dateText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     radioContainer: {
         marginTop: 5,
@@ -725,7 +743,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         marginLeft: 5,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     textArea: {
         borderWidth: 1,
@@ -736,7 +754,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         minHeight: 100,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     submitButton: {
         backgroundColor: '#4A7856',
@@ -760,7 +778,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#FFFFFF',
         fontWeight: 'bold',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     // Modal Styles
     modalOverlay: {
@@ -787,7 +805,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: '#333',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     modalCloseButton: {
         padding: 5,
@@ -804,7 +822,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#4A7856',
         marginBottom: 12,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     activityGrid: {
         flexDirection: 'row',
@@ -827,7 +845,7 @@ const styles = StyleSheet.create({
     activityOptionText: {
         fontSize: 15,
         color: '#333',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     activityOptionTextSelected: {
         color: '#FFFFFF',
@@ -867,7 +885,7 @@ const styles = StyleSheet.create({
         color: '#333',
         textAlign: 'center',
         marginBottom: 25,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     imagePickerOptions: {
         flexDirection: 'row',
@@ -889,7 +907,7 @@ const styles = StyleSheet.create({
         color: '#333',
         marginTop: 10,
         fontWeight: '600',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     imagePickerCancelButton: {
         backgroundColor: '#F5F5F5',
@@ -903,7 +921,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#666',
         fontWeight: '600',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
 });
 

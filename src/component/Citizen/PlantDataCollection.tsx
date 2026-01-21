@@ -21,12 +21,15 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNFS from 'react-native-fs';
 import { plantApi } from '../../api/plantapi';
+import CustomAlert from '../custom-alert/alert-design';
 
 // component
 const PlantDataCollection = () => {
     const navigation = useNavigation();
     const [currentLanguage, setCurrentLanguage] = useState('en');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isAlertVisible, setIsAlertVisible] = useState(false);
+    const [submittedData, setSubmittedData] = useState(null);
 
     const [activeTab, setActiveTab] = useState('Terrestrial');
     const [plantType, setPlantType] = useState('');
@@ -95,7 +98,7 @@ const PlantDataCollection = () => {
             description: 'විස්තරය (අත්‍යවශ්‍ය නොවේ)',
             submit: 'ඉදිරිපත් කරන්න',
             submitting: 'ඉදිරිපත් කරමින්...',
-            photoPlaceholder: 'ඡායාරූපයක් උඩුගත කිරීමට හෝ ග්‍රහණය කිරීමට තට්ටු කරන්න',
+            photoPlaceholder: 'ඡායාරූපය ගැනීම/ ඇතුලත් කිරීම මෙහිදී සිදු කරන්න',
             chooseOption: 'විකල්පයක් තෝරන්න',
             camera: 'කැමරාව',
             gallery: 'ගැලරිය',
@@ -311,29 +314,8 @@ const PlantDataCollection = () => {
             const response = await plantApi.createPlant(plantData);
 
             if (response.success) {
-                Alert.alert(
-                    t.success,
-                    t.submissionSuccess,
-                    [
-                        {
-                            text: 'OK',
-                            onPress: () => {
-                                // Reset form
-                                setPlantType('');
-                                setPhoto(null);
-                                setDate(new Date());
-                                setTimeOfDay('Morning');
-                                setDescription('');
-                                
-                                // Navigate to CreditInterface with the response data
-                                navigation.navigate('CreditInterface', {
-                                    observationData: response.data,
-                                    observationType: 'plant'
-                                });
-                            },
-                        },
-                    ]
-                );
+                setSubmittedData(response.data);
+                setIsAlertVisible(true);
             }
         } catch (error) {
             console.error('Error submitting plant observation:', error);
@@ -635,6 +617,22 @@ const PlantDataCollection = () => {
                     </View>
                 </View>
             </Modal>
+
+            {/* Success Alert */}
+            <CustomAlert
+                visible={isAlertVisible}
+                onClose={() => {
+                    setIsAlertVisible(false);
+                    // Reset form
+                    setPlantType('');
+                    setPhoto(null);
+                    setDate(new Date());
+                    setTimeOfDay('Morning');
+                    setDescription('');
+                    navigation.goBack();
+                }}
+                language={currentLanguage as 'en' | 'si' | 'ta'}
+            />
         </SafeAreaView>
     );
 }
@@ -666,7 +664,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 32,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
         color: '#4A7856',
         fontWeight: 'bold',
     },
@@ -690,7 +688,7 @@ const styles = StyleSheet.create({
     tabText: {
         fontSize: 16,
         color: '#666',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     tabTextActive: {
         color: '#2E7D32',
@@ -708,13 +706,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#333',
         marginBottom: 10,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     label: {
         fontSize: 16,
         color: '#333',
         marginBottom: 8,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     plantTypeGrid: {
         flexDirection: 'row',
@@ -762,7 +760,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 16,
         fontWeight: 'bold',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     selectedBadge: {
         position: 'absolute',
@@ -799,7 +797,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontSize: 14,
         color: '#999',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     photoContainer: {
         width: '100%',
@@ -847,7 +845,7 @@ const styles = StyleSheet.create({
     dateText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     dropdown: {
         flexDirection: 'row',
@@ -863,7 +861,7 @@ const styles = StyleSheet.create({
     dropdownText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     textArea: {
         borderWidth: 1,
@@ -874,7 +872,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         minHeight: 100,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     submitButton: {
         backgroundColor: '#4A7856',
@@ -906,7 +904,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#FFFFFF',
         fontWeight: 'bold',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     // Image Picker Modal Styles
     imagePickerOverlay: {
@@ -942,7 +940,7 @@ const styles = StyleSheet.create({
         color: '#333',
         textAlign: 'center',
         marginBottom: 25,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     imagePickerOptions: {
         flexDirection: 'row',
@@ -964,7 +962,7 @@ const styles = StyleSheet.create({
         color: '#333',
         marginTop: 10,
         fontWeight: '600',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     imagePickerCancelButton: {
         backgroundColor: '#F5F5F5',
@@ -978,7 +976,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#666',
         fontWeight: '600',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     // Time Picker Modal
     modalOverlay: {
@@ -1005,7 +1003,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: '#333',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     modalCloseButton: {
         padding: 5,
@@ -1029,7 +1027,7 @@ const styles = StyleSheet.create({
     timeOptionText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'serif',
     },
     timeOptionTextSelected: {
         color: '#4A7856',
