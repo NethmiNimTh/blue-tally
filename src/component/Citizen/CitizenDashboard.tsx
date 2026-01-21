@@ -1,6 +1,6 @@
 //import libraries
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, SafeAreaView, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, SafeAreaView, Platform, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -22,7 +22,10 @@ const CitizenDashboard = () => {
             home: 'Home',
             feed: 'Feed',
             explore: 'Explore',
-            highlights: 'Highlights'
+            highlights: 'Highlights',
+            adTitle: 'Special Offer!',
+            adMessage: 'Discover amazing deals and offers',
+            clickHere: 'Click Here'
         },
         si: {
             title1: 'කරුණාකර ඔබේ',
@@ -34,7 +37,10 @@ const CitizenDashboard = () => {
             home: 'මුල් පිටුව',
             feed: 'පෝෂණය',
             explore: 'ගවේෂණය',
-            highlights: 'විශේෂාංග'
+            highlights: 'විශේෂාංග',
+            adTitle: 'විශේෂ දීමනාව!',
+            adMessage: 'විශිෂ්ට දීමනා සොයා ගන්න',
+            clickHere: 'මෙතන ක්ලික් කරන්න'
         },
         ta: {
             title1: 'தயவுசெய்து உங்கள்',
@@ -46,7 +52,10 @@ const CitizenDashboard = () => {
             home: 'முகப்பு',
             feed: 'ஊட்டம்',
             explore: 'ஆராயுங்கள்',
-            highlights: 'சிறப்பம்சங்கள்'
+            highlights: 'சிறப்பம்சங்கள்',
+            adTitle: 'சிறப்பு சலுகை!',
+            adMessage: 'அற்புதமான சலுகைகளைக் கண்டறியுங்கள்',
+            clickHere: 'இங்கே கிளிக் செய்யவும்'
         }
     };
 
@@ -79,6 +88,12 @@ const CitizenDashboard = () => {
 
     const handleNavigation = (screen) => {
         navigation.navigate(screen);
+    };
+
+    const handleAdClick = () => {
+        // Replace with your advertisement URL
+        const adUrl = 'https://www.example.com';
+        Linking.openURL(adUrl).catch(err => console.error('Error opening URL:', err));
     };
 
     return (
@@ -171,6 +186,24 @@ const CitizenDashboard = () => {
                         </ImageBackground>
                     </TouchableOpacity>
                 </View>
+
+                {/* Advertisement Section */}
+                {/* <View style={styles.adContainer}>
+                    <View style={styles.adContent}>
+                        <Icon name="local-offer" size={24} color="#4A7856" />
+                        <View style={styles.adTextContainer}>
+                            <Text style={styles.adTitle}>{t.adTitle}</Text>
+                            <Text style={styles.adMessage}>{t.adMessage}</Text>
+                        </View>
+                    </View>
+                    <TouchableOpacity
+                        style={styles.adButton}
+                        onPress={handleAdClick}
+                        activeOpacity={0.8}
+                    >
+                        <Text style={styles.adButtonText}>{t.clickHere}</Text>
+                    </TouchableOpacity>
+                </View> */}
 
                 {/* Bottom Navigation */}
                 <View style={styles.bottomNav}>
@@ -312,6 +345,51 @@ const styles = StyleSheet.create({
         color: '#666',
         marginTop: 4,
         fontFamily: 'JejuHallasan-Regular',
+    },
+    adContainer: {
+        marginHorizontal: 20,
+        marginBottom: 15,
+        backgroundColor: '#E8F5E9',
+        borderRadius: 12,
+        padding: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderWidth: 1,
+        borderColor: '#C8E6C9',
+    },
+    adContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1,
+    },
+    adTextContainer: {
+        marginLeft: 12,
+        flex: 1,
+    },
+    adTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#2E7D32',
+        fontFamily: 'serif',
+    },
+    adMessage: {
+        fontSize: 12,
+        color: '#4A7856',
+        marginTop: 2,
+        fontFamily: 'serif',
+    },
+    adButton: {
+        backgroundColor: '#4A7856',
+        paddingVertical: 10,
+        paddingHorizontal: 16,
+        borderRadius: 20,
+    },
+    adButtonText: {
+        color: '#FFFFFF',
+        fontSize: 14,
+        fontWeight: '600',
+        fontFamily: 'serif',
     },
 });
 
