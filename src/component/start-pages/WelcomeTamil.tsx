@@ -21,7 +21,7 @@ const WelcomeTamil = () => {
     }, []);
 
     const handlePress = () => {
-        navigation.navigate('OptionSelection'); // Update with your next screen name
+        navigation.navigate('WelcomeEnglish'); // Update with your next screen name
     };
 
     return (

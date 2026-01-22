@@ -21,7 +21,7 @@ const StartPageA = () => {
     }, []);
 
     const handlePress = () => {
-        navigation.navigate('WelcomeSinhala');
+        navigation.navigate('OptionSelection');
     };
 
     return (

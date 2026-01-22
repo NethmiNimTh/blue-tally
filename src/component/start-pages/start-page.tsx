@@ -21,7 +21,7 @@ const StartPage = () => {
     }, []);
 
     const handlePress = () => {
-        navigation.navigate('WelcomeEnglish');
+        navigation.navigate('WelcomeSinhala');
     };
 
     return (
