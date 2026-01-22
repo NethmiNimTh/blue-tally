@@ -206,7 +206,7 @@ const CitizenDashboard = () => {
                 </View> */}
 
                 {/* Bottom Navigation */}
-                <View style={styles.bottomNav}>
+                {/* <View style={styles.bottomNav}>
                     <TouchableOpacity 
                         style={styles.navItem}
                         onPress={() => handleNavigation('Home')}
@@ -242,7 +242,7 @@ const CitizenDashboard = () => {
                         <Icon name="account-circle" size={28} color="#666" />
                         <Text style={styles.navText}>{t.highlights}</Text>
                     </TouchableOpacity>
-                </View>
+                </View> */}
             </View>
         </SafeAreaView>
     );

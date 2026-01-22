@@ -83,29 +83,18 @@ const AnimalDataCollection = () => {
             submissionSuccess: 'Animal observation submitted successfully!',
             submissionFailed: 'Submission Failed',
             tryAgain: 'Failed to submit observation. Please try again.',
-            // Animal categories
-            mammals: 'Mammals',
-            birds: 'Birds',
-            reptilesAmphibians: 'Reptiles & Amphibians',
-            // Mammals
-            deer: 'Deer',
-            fox: 'Fox',
-            rabbit: 'Rabbit',
-            squirrel: 'Squirrel',
-            bat: 'Bat',
-            otherMammal: 'Other Mammal',
-            // Birds
-            songbird: 'Songbird',
-            birdOfPrey: 'Bird of Prey',
-            waterfowl: 'Waterfowl',
-            wadingBird: 'Wading Bird',
-            otherBird: 'Other Bird',
-            // Reptiles & Amphibians
-            snake: 'Snake',
-            lizard: 'Lizard',
-            turtle: 'Turtle',
-            frog: 'Frog',
-            otherReptileAmphibian: 'Other Reptile/Amphibian',
+            // Animal types
+            mammal: 'Mammal',
+            bird: 'Bird',
+            reptile: 'Reptile',
+            amphibian: 'Amphibian',
+            fish: 'Fish',
+            annelidBivalve: 'Annelid/Bivalve',
+            butterflyMoth: 'Butterfly/Moth',
+            dragonfly: 'Dragonfly',
+            spider: 'Spider',
+            otherInsect: 'Other Insect',
+            crustacean: 'Crustacean',
             // Time options
             morning: 'Morning',
             noon: 'Noon',
@@ -136,26 +125,18 @@ const AnimalDataCollection = () => {
             submissionSuccess: 'සත්ව නිරීක්ෂණය සාර්ථකව ඉදිරිපත් කරන ලදී!',
             submissionFailed: 'ඉදිරිපත් කිරීම අසාර්ථක විය',
             tryAgain: 'නිරීක්ෂණය ඉදිරිපත් කිරීමට අසමත් විය. කරුණාකර නැවත උත්සාහ කරන්න.',
-            // Animal categories (keep all translations)
-            mammals: 'ක්ෂීරපායීන්',
-            birds: 'පක්ෂීන්',
-            reptilesAmphibians: 'උරගයින් සහ උභයජීවීන්',
-            deer: 'මුව',
-            fox: 'හිවලා',
-            rabbit: 'හාවා',
-            squirrel: 'ලේනා',
-            bat: 'වවුලා',
-            otherMammal: 'වෙනත් ක්ෂීරපායීන්',
-            songbird: 'ගීත පක්ෂියා',
-            birdOfPrey: 'විලෝපික පක්ෂියා',
-            waterfowl: 'ජල කුරුල්ලන්',
-            wadingBird: 'වතුර පක්ෂියා',
-            otherBird: 'වෙනත් පක්ෂියා',
-            snake: 'සර්පයා',
-            lizard: 'කටුස්සා',
-            turtle: 'ඉබ්බා',
-            frog: 'ගෙම්බා',
-            otherReptileAmphibian: 'වෙනත් උරගයා/උභයජීවීන්',
+            // Animal types
+            mammal: 'ක්ෂීරපායී',
+            bird: 'පක්ෂියා',
+            reptile: 'උරගයා',
+            amphibian: 'උභයජීවී',
+            fish: 'මාළුවා',
+            annelidBivalve: 'පණුවා/බයිවෑල්ව්',
+            butterflyMoth: 'සමනලයා/මෝතය',
+            dragonfly: 'බඹරා',
+            spider: 'මකුළුවා',
+            otherInsect: 'වෙනත් කෘමියා',
+            crustacean: 'කකුළුවන්',
             morning: 'උදෑසන',
             noon: 'මධ්‍යාහ්නය',
             evening: 'සවස',
@@ -185,26 +166,18 @@ const AnimalDataCollection = () => {
             submissionSuccess: 'விலங்கு கவனிப்பு வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது!',
             submissionFailed: 'சமர்ப்பித்தல் தோல்வியடைந்தது',
             tryAgain: 'கவனிப்பை சமர்ப்பிக்க தோல்வி. மீண்டும் முயற்சிக்கவும்.',
-            // Animal categories (keep all translations)
-            mammals: 'பாலூட்டிகள்',
-            birds: 'பறவைகள்',
-            reptilesAmphibians: 'ஊர்வன & நீர்நில விலங்குகள்',
-            deer: 'மான்',
-            fox: 'நரி',
-            rabbit: 'முயல்',
-            squirrel: 'அணில்',
-            bat: 'வெளவால்',
-            otherMammal: 'பிற பாலூட்டி',
-            songbird: 'பாடும் பறவை',
-            birdOfPrey: 'வேட்டைப் பறவை',
-            waterfowl: 'நீர்ப்பறவை',
-            wadingBird: 'நடக்கும் பறவை',
-            otherBird: 'பிற பறவை',
-            snake: 'பாம்பு',
-            lizard: 'பல்லி',
-            turtle: 'ஆமை',
-            frog: 'தவளை',
-            otherReptileAmphibian: 'பிற ஊர்வன/நீர்நில விலங்கு',
+            // Animal types
+            mammal: 'பாலூட்டி',
+            bird: 'பறவை',
+            reptile: 'ஊர்வன',
+            amphibian: 'நீர்நில விலங்கு',
+            fish: 'மீன்',
+            annelidBivalve: 'புழு/இருபுற ஓடு',
+            butterflyMoth: 'பட்டாம்பூச்சி/அந்துப்பூச்சி',
+            dragonfly: 'தட்டான்',
+            spider: 'சிலந்தி',
+            otherInsect: 'பிற பூச்சி',
+            crustacean: 'ஓட்டுமீன்',
             morning: 'காலை',
             noon: 'மதியம்',
             evening: 'மாலை',
@@ -231,30 +204,19 @@ const AnimalDataCollection = () => {
     // Get current translations
     const lang = translations[currentLanguage] || translations.en;
 
-    const animalCategories = {
-        [lang.mammals]: [
-            { value: 'Deer', label: lang.deer },
-            { value: 'Fox', label: lang.fox },
-            { value: 'Rabbit', label: lang.rabbit },
-            { value: 'Squirrel', label: lang.squirrel },
-            { value: 'Bat', label: lang.bat },
-            { value: 'Other Mammal', label: lang.otherMammal }
-        ],
-        [lang.birds]: [
-            { value: 'Songbird', label: lang.songbird },
-            { value: 'Bird of Prey', label: lang.birdOfPrey },
-            { value: 'Waterfowl', label: lang.waterfowl },
-            { value: 'Wading Bird', label: lang.wadingBird },
-            { value: 'Other Bird', label: lang.otherBird }
-        ],
-        [lang.reptilesAmphibians]: [
-            { value: 'Snake', label: lang.snake },
-            { value: 'Lizard', label: lang.lizard },
-            { value: 'Turtle', label: lang.turtle },
-            { value: 'Frog', label: lang.frog },
-            { value: 'Other Reptile/Amphibian', label: lang.otherReptileAmphibian }
-        ]
-    };
+    const animalCategories = [
+        { value: 'Mammal', label: lang.mammal },
+        { value: 'Bird', label: lang.bird },
+        { value: 'Reptile', label: lang.reptile },
+        { value: 'Amphibian', label: lang.amphibian },
+        { value: 'Fish', label: lang.fish },
+        { value: 'AnnelidBivalve', label: lang.annelidBivalve },
+        { value: 'ButterflyMoth', label: lang.butterflyMoth },
+        { value: 'Dragonfly', label: lang.dragonfly },
+        { value: 'Spider', label: lang.spider },
+        { value: 'OtherInsect', label: lang.otherInsect },
+        { value: 'Crustacean', label: lang.crustacean }
+    ];
 
     const timeOptions = [
         { value: 'Morning', label: lang.morning },
@@ -337,51 +299,44 @@ const AnimalDataCollection = () => {
     };
 
     const handleSubmit = async () => {
-    if (!activityType) {
-        Alert.alert(t.requiredField, t.selectActivityAlert);
-        return;
-    }
-
-    if (!photo) {
-        Alert.alert(t.requiredField, t.uploadPhoto);
-        return;
-    }
-
-    if (!timeOfDay) {
-        Alert.alert(t.requiredField, t.selectTimeOfDay);
-        return;
-    }
-
-    const observationData = {
-        category,
-        activityType,
-        photo,
-        date: date.toISOString().split('T')[0],
-        timeOfDay,
-        description
-    };
-
-    try {
-        const response = await fetch("http://<YOUR_LOCAL_IP>:5000/api/human-activities", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(observationData),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            setIsAlertVisible(true);
-        } else {
-            Alert.alert("Error", data.message || "Failed to submit observation");
+        if (!animalType) {
+            Alert.alert(lang.requiredField, lang.selectAnimalAlert);
+            return;
         }
-    } catch (error) {
-        console.error("Submit error:", error);
-        Alert.alert("Error", "Unable to connect to server. Check your connection.");
-    }
-};
+
+        if (!photo) {
+            Alert.alert(lang.requiredField, lang.uploadPhoto);
+            return;
+        }
+
+        if (!timeOfDay) {
+            Alert.alert(lang.requiredField, lang.selectTimeOfDay);
+            return;
+        }
+
+        setIsSubmitting(true);
+
+        try {
+            const base64Photo = await convertImageToBase64(photo);
+
+            const observationData = {
+                category,
+                animalType,
+                photo: base64Photo,
+                date: date.toISOString().split('T')[0],
+                timeOfDay,
+                description
+            };
+
+            await animalApi.createAnimal(observationData);
+            setIsAlertVisible(true);
+        } catch (error) {
+            console.error("Submit error:", error);
+            Alert.alert(lang.submissionFailed, lang.tryAgain);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
 
     const formatDate = (date) => {
@@ -390,11 +345,8 @@ const AnimalDataCollection = () => {
 
     // Get display label for current animal type
     const getCurrentAnimalLabel = () => {
-        for (const animals of Object.values(animalCategories)) {
-            const found = animals.find(a => a.value === animalType);
-            if (found) return found.label;
-        }
-        return lang.selectAnimalType;
+        const found = animalCategories.find(a => a.value === animalType);
+        return found ? found.label : lang.selectAnimalType;
     };
 
     return (
@@ -613,30 +565,25 @@ const AnimalDataCollection = () => {
                         </View>
 
                         <ScrollView style={styles.modalContent}>
-                            {Object.entries(animalCategories).map(([categoryName, animals]) => (
-                                <View key={categoryName} style={styles.categorySection}>
-                                    <Text style={styles.categoryTitle}>{categoryName}</Text>
-                                    <View style={styles.animalGrid}>
-                                        {animals.map((animal) => (
-                                            <TouchableOpacity
-                                                key={animal.value}
-                                                style={[
-                                                    styles.animalOption,
-                                                    animalType === animal.value && styles.animalOptionSelected
-                                                ]}
-                                                onPress={() => handleAnimalSelect(animal.value)}
-                                            >
-                                                <Text style={[
-                                                    styles.animalOptionText,
-                                                    animalType === animal.value && styles.animalOptionTextSelected
-                                                ]}>
-                                                    {animal.label}
-                                                </Text>
-                                            </TouchableOpacity>
-                                        ))}
-                                    </View>
-                                </View>
-                            ))}
+                            <View style={styles.animalGrid}>
+                                {animalCategories.map((animal) => (
+                                    <TouchableOpacity
+                                        key={animal.value}
+                                        style={[
+                                            styles.animalOption,
+                                            animalType === animal.value && styles.animalOptionSelected
+                                        ]}
+                                        onPress={() => handleAnimalSelect(animal.value)}
+                                    >
+                                        <Text style={[
+                                            styles.animalOptionText,
+                                            animalType === animal.value && styles.animalOptionTextSelected
+                                        ]}>
+                                            {animal.label}
+                                        </Text>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
                         </ScrollView>
                     </View>
                 </View>

@@ -40,7 +40,7 @@ const CustomAlert: React.FC<CustomAlertProps> = ({ visible, onClose, language = 
         <View style={styles.alertContainer}>
           {/* Checkmark Icon */}
           <View style={styles.iconContainer}>
-            <Icon name="check-circle" size={80} color="#22C55E" />
+            <Icon name="check-circle" size={80} color="#39c66dd6" />
           </View>
 
           {/* Title */}
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     fontFamily: 'serif',
   },
   button: {
-    backgroundColor: '#22C55E',
+    backgroundColor: '#39c66dd6',
     paddingVertical: 14,
     paddingHorizontal: 50,
     borderRadius: 25,
