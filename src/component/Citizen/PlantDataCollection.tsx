@@ -70,6 +70,7 @@ const PlantDataCollection = () => {
             submissionSuccess: 'Plant observation submitted successfully!',
             submissionFailed: 'Submission Failed',
             tryAgain: 'Failed to submit observation. Please try again.',
+            aquaticExamples: 'Examples of Aquatic Species',
             // Plant types
             plant: 'Plant',
             epiphyte: 'Epiphyte',
@@ -87,11 +88,11 @@ const PlantDataCollection = () => {
         },
         si: {
             title: 'ශාක',
-            terrestrial: 'භූමිජ',
+            terrestrial: 'භෞමික',
             aquatic: 'ජලජ',
-            terrestrialPlants: 'භූමිජ ශාක',
+            terrestrialPlants: 'භෞමික ශාක',
             aquaticPlants: 'ජලජ ශාක',
-            plantType: 'ශාක වර්ගය',
+            plantType: 'ශාක කාණ්ඩය',
             photo: 'ඡායාරූපය',
             date: 'දිනය',
             timeOfDay: 'දවසේ වේලාව',
@@ -112,26 +113,27 @@ const PlantDataCollection = () => {
             submissionSuccess: 'ශාක නිරීක්ෂණය සාර්ථකව ඉදිරිපත් කරන ලදී!',
             submissionFailed: 'ඉදිරිපත් කිරීම අසාර්ථක විය',
             tryAgain: 'නිරීක්ෂණය ඉදිරිපත් කිරීමට අසමත් විය. කරුණාකර නැවත උත්සාහ කරන්න.',
+            aquaticExamples: 'ජලජ ශාක සඳහා නිදසුන්',
             // Plant types
-            plant: 'ශාකය',
-            epiphyte: 'එපිෆයිට්',
-            lichen: 'ලයිකන්',
-            bryophyte: 'බ්‍රයෝෆයිට්',
+            plant: 'ශාක',
+            epiphyte: 'අපිශාක',
+            lichen: 'ලයිකන',
+            bryophyte: 'අක්මා ශාක',
             fungi: 'දිලීර',
             other: 'වෙනත්',
             floating: 'පාවෙන',
             submerged: 'ජලයේ යටවූ',
             // Time options
             morning: 'උදෑසන',
-            noon: 'මධ්‍යාහ්නය',
+            noon: 'මධ්‍යාහනය',
             evening: 'සවස',
             night: 'රාත්‍රිය'
         },
         ta: {
             title: 'தாவரம்',
-            terrestrial: 'நிலவியல்',
+            terrestrial: 'நில வாழ்',
             aquatic: 'நீர்வாழ்',
-            terrestrialPlants: 'நிலவியல் தாவரங்கள்',
+            terrestrialPlants: 'நில வாழ் தாவரங்கள்',
             aquaticPlants: 'நீர்வாழ் தாவரங்கள்',
             plantType: 'தாவர வகை',
             photo: 'புகைப்படம்',
@@ -154,6 +156,7 @@ const PlantDataCollection = () => {
             submissionSuccess: 'தாவர கவனிப்பு வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது!',
             submissionFailed: 'சமர்ப்பித்தல் தோல்வியடைந்தது',
             tryAgain: 'கவனிப்பை சமர்ப்பிக்க தோல்வி. மீண்டும் முயற்சிக்கவும்.',
+            aquaticExamples: 'நீர்வாழ் தாவரங்களுக்கான உதாரணங்கள்',
             // Plant types
             plant: 'தாவரம்',
             epiphyte: 'எபிஃபைட்',
@@ -388,7 +391,11 @@ const PlantDataCollection = () => {
                     <View style={styles.inputGroup}>
                         <Text style={styles.sectionTitle}>{sectionTitle}</Text>
                         <Text style={styles.label}>{t.plantType}</Text>
-                        
+
+                        {activeTab === 'Aquatic' && (
+                            <Text style={styles.examplesText}>{t.aquaticExamples}</Text>
+                        )}
+
                         <View style={styles.plantTypeGrid}>
                             {currentPlantTypes.map((type) => (
                                 <TouchableOpacity 
@@ -623,13 +630,11 @@ const PlantDataCollection = () => {
                 visible={isAlertVisible}
                 onClose={() => {
                     setIsAlertVisible(false);
-                    // Reset form
-                    setPlantType('');
-                    setPhoto(null);
-                    setDate(new Date());
-                    setTimeOfDay('Morning');
-                    setDescription('');
-                    navigation.goBack();
+                    // Navigate to CreditInterface
+                    navigation.navigate('CreditInterface', {
+                        observationData: submittedData,
+                        observationType: 'plant'
+                    });
                 }}
                 language={currentLanguage as 'en' | 'si' | 'ta'}
             />
@@ -664,7 +669,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 32,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
         color: '#4A7856',
         fontWeight: 'bold',
     },
@@ -688,7 +693,7 @@ const styles = StyleSheet.create({
     tabText: {
         fontSize: 16,
         color: '#666',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     tabTextActive: {
         color: '#2E7D32',
@@ -706,13 +711,20 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#333',
         marginBottom: 10,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     label: {
         fontSize: 16,
         color: '#333',
         marginBottom: 8,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
+    },
+    examplesText: {
+        fontSize: 14,
+        color: '#4A7856',
+        marginBottom: 10,
+        fontFamily: 'Times New Roman',
+        fontStyle: 'italic',
     },
     plantTypeGrid: {
         flexDirection: 'row',
@@ -760,7 +772,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 16,
         fontWeight: 'bold',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     selectedBadge: {
         position: 'absolute',
@@ -797,7 +809,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontSize: 14,
         color: '#999',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     photoContainer: {
         width: '100%',
@@ -845,7 +857,7 @@ const styles = StyleSheet.create({
     dateText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     dropdown: {
         flexDirection: 'row',
@@ -861,7 +873,7 @@ const styles = StyleSheet.create({
     dropdownText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     textArea: {
         borderWidth: 1,
@@ -872,7 +884,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         minHeight: 100,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     submitButton: {
         backgroundColor: '#4A7856',
@@ -904,7 +916,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#FFFFFF',
         fontWeight: 'bold',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     // Image Picker Modal Styles
     imagePickerOverlay: {
@@ -940,7 +952,7 @@ const styles = StyleSheet.create({
         color: '#333',
         textAlign: 'center',
         marginBottom: 25,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     imagePickerOptions: {
         flexDirection: 'row',
@@ -962,7 +974,7 @@ const styles = StyleSheet.create({
         color: '#333',
         marginTop: 10,
         fontWeight: '600',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     imagePickerCancelButton: {
         backgroundColor: '#F5F5F5',
@@ -976,7 +988,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#666',
         fontWeight: '600',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     // Time Picker Modal
     modalOverlay: {
@@ -1003,7 +1015,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     modalCloseButton: {
         padding: 5,
@@ -1027,7 +1039,7 @@ const styles = StyleSheet.create({
     timeOptionText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     timeOptionTextSelected: {
         color: '#4A7856',

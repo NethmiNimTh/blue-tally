@@ -47,6 +47,7 @@ const NatureDataCollection = () => {
     const [currentLanguage, setCurrentLanguage] = useState('en');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isAlertVisible, setIsAlertVisible] = useState(false);
+    const [submittedData, setSubmittedData] = useState(null);
 
     const [natureType, setNatureType] = useState('');
     const [showNaturePicker, setShowNaturePicker] = useState(false);
@@ -118,12 +119,12 @@ const NatureDataCollection = () => {
             submissionFailed: 'ඉදිරිපත් කිරීම අසාර්ථක විය',
             tryAgain: 'නිරීක්ෂණය ඉදිරිපත් කිරීමට අසමත් විය. කරුණාකර නැවත උත්සාහ කරන්න.',
             // Nature types
-            naturalEvents: 'ස්වාභාවික සිදුවීම්',
-            aesthetics: 'සෞන්දර්යය',
-            other: 'වෙනත්',
+            naturalEvents: 'ස්වභාවික සංසිද්ධි',
+            aesthetics: 'සෞන්දර්යාත්මක අවස්ථා',
+            other: 'වෙනත් අවස්ථා',
             // Time options
             morning: 'උදෑසන',
-            noon: 'මධ්‍යාහ්නය',
+            noon: 'මධ්‍යාහනය',
             evening: 'සවස',
             night: 'රාත්‍රිය'
         },
@@ -304,6 +305,7 @@ const NatureDataCollection = () => {
             const response = await natureApi.createNature(natureData);
 
             if (response.success) {
+                setSubmittedData(response.data);
                 setIsAlertVisible(true);
             }
         } catch (error) {
@@ -616,13 +618,11 @@ const NatureDataCollection = () => {
                 visible={isAlertVisible}
                 onClose={() => {
                     setIsAlertVisible(false);
-                    // Reset form
-                    setNatureType('');
-                    setPhoto(null);
-                    setDate(new Date());
-                    setTimeOfDay('');
-                    setDescription('');
-                    navigation.goBack();
+                    // Navigate to CreditInterface
+                    navigation.navigate('CreditInterface', {
+                        observationData: submittedData,
+                        observationType: 'nature'
+                    });
                 }}
                 language={currentLanguage as 'en' | 'si' | 'ta'}
             />
@@ -657,7 +657,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 32,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
         color: '#4A7856',
         fontWeight: 'bold',
     },
@@ -672,7 +672,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         marginBottom: 8,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     required: {
         color: '#E74C3C',
@@ -691,7 +691,7 @@ const styles = StyleSheet.create({
     dropdownText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     placeholder: {
         color: '#999',
@@ -713,7 +713,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontSize: 14,
         color: '#999',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     photoContainer: {
         width: '100%',
@@ -761,7 +761,7 @@ const styles = StyleSheet.create({
     dateText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     // Custom Radio Button Styles
     customRadio: {
@@ -803,7 +803,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         marginLeft: 5,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     textArea: {
         borderWidth: 1,
@@ -814,7 +814,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         minHeight: 100,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     submitButton: {
         backgroundColor: '#4A7856',
@@ -846,7 +846,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#FFFFFF',
         fontWeight: 'bold',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     // Modal Styles
     modalOverlay: {
@@ -873,7 +873,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     modalCloseButton: {
         padding: 5,
@@ -904,7 +904,7 @@ const styles = StyleSheet.create({
     natureOptionText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     natureOptionTextSelected: {
         color: '#FFFFFF',
@@ -944,7 +944,7 @@ const styles = StyleSheet.create({
         color: '#333',
         textAlign: 'center',
         marginBottom: 25,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     imagePickerOptions: {
         flexDirection: 'row',
@@ -966,7 +966,7 @@ const styles = StyleSheet.create({
         color: '#333',
         marginTop: 10,
         fontWeight: '600',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     imagePickerCancelButton: {
         backgroundColor: '#F5F5F5',
@@ -980,7 +980,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#666',
         fontWeight: '600',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
 });
 

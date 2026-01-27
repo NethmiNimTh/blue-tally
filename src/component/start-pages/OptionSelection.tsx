@@ -56,13 +56,13 @@ const OptionSelection = () => {
                 </TouchableOpacity>
 
                 <View style={styles.topRight}>
-                    <TouchableOpacity 
+                    {/* <TouchableOpacity 
                         style={styles.topButton}
                         onPress={handleLanguagePress}
                         activeOpacity={0.7}
                     >
                         <Icon name="language" size={28} color="#FFFFFF" />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                     <TouchableOpacity 
                         style={styles.topButton}
@@ -82,16 +82,15 @@ const OptionSelection = () => {
             {/* Main Content - Selection Buttons */}
             <View style={styles.container}>
                 {/* Citizen Button */}
-                <TouchableOpacity 
+                <TouchableOpacity
                     style={styles.button}
                     onPress={handleCitizenPress}
                     activeOpacity={0.8}
                 >
-                    <View style={styles.buttonContent}>
-                        {/* <Icon name="person" size={32} color="#4A7856" style={styles.buttonIcon} /> */}
-                        <Text style={styles.buttonText}>පොදු    ජනතාව
-                                                        பொது  மக்கள்
-                                                        General Public</Text>
+                    <View style={styles.buttonContentColumn}>
+                        <Text style={styles.buttonText}>පොදු ජනතාව</Text>
+                        <Text style={styles.buttonText}>பொது மக்கள்</Text>
+                        <Text style={styles.buttonText}>General Public</Text>
                     </View>
                 </TouchableOpacity>
 
@@ -109,7 +108,7 @@ const OptionSelection = () => {
             </View>
 
             {/* Bottom Skip Button */}
-            <View style={styles.bottomContainer}>
+            {/* <View style={styles.bottomContainer}>
                 <TouchableOpacity 
                     style={styles.skipButton}
                     onPress={handleHomePress}
@@ -117,7 +116,7 @@ const OptionSelection = () => {
                 >
                     <Text style={styles.skipText}>Skip for now</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
         </ImageBackground>
     );
 }
@@ -166,7 +165,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 32,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
         color: '#FFFFFF',
         fontWeight: 'bold',
         textAlign: 'center',
@@ -213,15 +212,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    buttonContentColumn: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     buttonIcon: {
         marginRight: 12,
     },
     buttonText: {
-        fontSize: 28,
-        fontFamily: 'JejuHallasan-Regular',
+        fontSize: 22,
+        fontFamily: 'Times New Roman',
         color: '#000000',
         fontWeight: '600',
         letterSpacing: 0.5,
+        textAlign: 'center',
+        marginVertical: 2,
     },
     bottomContainer: {
         alignItems: 'center',
@@ -237,7 +243,7 @@ const styles = StyleSheet.create({
     },
     skipText: {
         fontSize: 16,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
         color: '#FFFFFF',
         fontWeight: '500',
     },

@@ -47,6 +47,7 @@ const AnimalDataCollection = () => {
     const [currentLanguage, setCurrentLanguage] = useState('en');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isAlertVisible, setIsAlertVisible] = useState(false);
+    const [submittedData, setSubmittedData] = useState(null);
 
     const [animalType, setAnimalType] = useState('');
     const [showAnimalPicker, setShowAnimalPicker] = useState(false);
@@ -130,15 +131,15 @@ const AnimalDataCollection = () => {
             bird: 'කුරුල්ලන්',
             reptile: 'උරගයින්',
             amphibian: 'උභයජීවීන්',
-            fish: 'මත්සයයන්',
-            annelidBivalve: 'ගොළුබෙල්ලන් සහ දෙපියලි බෙල්ලන්',
+            fish: 'මත්ස්‍යයන්',
+            annelidBivalve: ' ගොලුබෙල්ලන් සහ දෙපියන්බෙල්ලන්',
             butterflyMoth: 'සමනලුන් හෝ සලබයින්',
-            dragonfly: 'බත් කුරුන් හෝ ඉරවූ කුරුන්',
+            dragonfly: ' බත් කූරන් හෝ ඉරටු කූරන්',
             spider: 'මකුළුවන්',
             otherInsect: 'අනෙකුත් කෘමීන්',
-            crustacean: 'කුස්ටේසියාවන් (උදාහරණ - කකුළුවන්)',
+            crustacean: 'ක්‍රස්ටේසියාවන්  (උදාහරණ - කකුළුවන්)',
             morning: 'උදෑසන',
-            noon: 'මධ්‍යාහ්නය',
+            noon: 'මධ්‍යාහනය',
             evening: 'සවස',
             night: 'රාත්‍රිය'
         },
@@ -172,7 +173,7 @@ const AnimalDataCollection = () => {
             reptile: 'ஊர்வன',
             amphibian: 'இருவாழ்விகள்',
             fish: 'மீன்கள்',
-            annelidBivalve: 'வலையிறால்கள் மற்றும் இருவல்விகள்',
+            annelidBivalve: 'புழுக்கள் மற்றும் இருவால்விகள்',
             butterflyMoth: 'பட்டாம்பூச்சி அல்லது அந்துப்பூச்சி',
             dragonfly: 'தும்பி அல்லது ஊசித்தும்பி',
             spider: 'சிலந்தி',
@@ -328,8 +329,12 @@ const AnimalDataCollection = () => {
                 description
             };
 
-            await animalApi.createAnimal(observationData);
-            setIsAlertVisible(true);
+            const response = await animalApi.createAnimal(observationData);
+
+            if (response.success) {
+                setSubmittedData(response.data);
+                setIsAlertVisible(true);
+            }
         } catch (error) {
             console.error("Submit error:", error);
             Alert.alert(lang.submissionFailed, lang.tryAgain);
@@ -635,7 +640,11 @@ const AnimalDataCollection = () => {
                 visible={isAlertVisible}
                 onClose={() => {
                     setIsAlertVisible(false);
-                    navigation.goBack();
+                    // Navigate to CreditInterface
+                    navigation.navigate('CreditInterface', {
+                        observationData: submittedData,
+                        observationType: 'animal'
+                    });
                 }}
                 language={currentLanguage as 'en' | 'si' | 'ta'}
             />
@@ -670,7 +679,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 32,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
         color: '#4A7856',
         fontWeight: 'bold',
     },
@@ -685,7 +694,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         marginBottom: 8,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     required: {
         color: '#E74C3C',
@@ -704,7 +713,7 @@ const styles = StyleSheet.create({
     dropdownText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     placeholder: {
         color: '#999',
@@ -726,7 +735,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontSize: 14,
         color: '#999',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     photoContainer: {
         width: '100%',
@@ -774,7 +783,7 @@ const styles = StyleSheet.create({
     dateText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     // Custom Radio Button Styles
     customRadio: {
@@ -816,7 +825,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         marginLeft: 5,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     textArea: {
         borderWidth: 1,
@@ -827,7 +836,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         minHeight: 100,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     submitButton: {
         backgroundColor: '#4A7856',
@@ -859,7 +868,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#FFFFFF',
         fontWeight: 'bold',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     // Modal Styles
     modalOverlay: {
@@ -897,7 +906,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     modalCloseButton: {
         padding: 5,
@@ -914,7 +923,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#4A7856',
         marginBottom: 12,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     animalGrid: {
         flexDirection: 'row',
@@ -937,7 +946,7 @@ const styles = StyleSheet.create({
     animalOptionText: {
         fontSize: 15,
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     animalOptionTextSelected: {
         color: '#FFFFFF',
@@ -977,7 +986,7 @@ const styles = StyleSheet.create({
         color: '#333',
         textAlign: 'center',
         marginBottom: 25,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     imagePickerOptions: {
         flexDirection: 'row',
@@ -999,7 +1008,7 @@ const styles = StyleSheet.create({
         color: '#333',
         marginTop: 10,
         fontWeight: '600',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     imagePickerCancelButton: {
         backgroundColor: '#F5F5F5',
@@ -1013,7 +1022,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#666',
         fontWeight: '600',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
 });
 

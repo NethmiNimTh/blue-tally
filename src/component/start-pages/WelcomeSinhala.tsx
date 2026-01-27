@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     logoText: {
         fontSize: 32,
         color: '#FFFFFF',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
         marginBottom: 30,
         opacity: 0.8,
         ...Platform.select({
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     },
     welcomeText: {
         fontSize: 32,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
         color: '#FFFFFF',
         fontWeight: 'bold',
         letterSpacing: 1,
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     },
     descriptionText: {
         fontSize: 22,
-        fontFamily: 'IstokWeb-Bold',
+        fontFamily: 'Times New Roman',
         color: '#FFFFFF',
         textAlign: 'center',
         fontWeight: 'bold',
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     },
     bottomText: {
         fontSize: 18,
-        fontFamily: 'IstokWeb-Bold',
+        fontFamily: 'Times New Roman',
         color: '#FFFFFF',
         textAlign: 'center',
         fontWeight: 'bold',

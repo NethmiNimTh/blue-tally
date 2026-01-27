@@ -16,6 +16,7 @@ const HumanActivityDataCollection = () => {
     const category = route.params?.category || 'Human Activity';
     const [currentLanguage, setCurrentLanguage] = useState('en');
     const [isAlertVisible, setIsAlertVisible] = useState(false);
+    const [submittedData, setSubmittedData] = useState(null);
 
     const [activityType, setActivityType] = useState('');
     const [showActivityPicker, setShowActivityPicker] = useState(false);
@@ -48,25 +49,17 @@ const HumanActivityDataCollection = () => {
             selectTimeOfDay: 'Please select time of day',
             descriptionPlaceholder: 'Add any additional notes about your observation...',
             // Activity categories
-            environmentalImpacts: 'Environmental Impacts',
-            constructionDevelopment: 'Construction & Development',
-            wildlifeAnimals: 'Wildlife & Animals',
-            otherActivities: 'Other Activities',
-            // Environmental Impacts
+            threatsAndHumanActivities: 'Threats and Human Activities',
+            // Activities
             fire: 'Fire',
             deforestation: 'Deforestation',
             mining: 'Mining',
-            wastePollution: 'Waste & Pollution',
             wasteDisposal: 'Waste disposal',
-            plasticPolythene: 'Plastic and polythene',
-            // Construction & Development
-            constructions: 'Constructions',
-            // Wildlife & Animals
-            domesticAnimal: 'Domestic Animal',
-            hunting: 'Hunting',
-            // Other Activities
+            construction: 'Construction',
+            domesticAnimals: 'Domestic animals',
+            huntingCollection: 'Hunting and collection of species',
+            feedingWildAnimals: 'Feeding of wild animals',
             illegalBehaviour: 'Illegal behaviour',
-            other: 'Other',
             // Time options
             morning: 'Morning',
             noon: 'Noon',
@@ -93,25 +86,17 @@ const HumanActivityDataCollection = () => {
             selectTimeOfDay: 'කරුණාකර දවසේ වේලාව තෝරන්න',
             descriptionPlaceholder: 'ඔබේ නිරීක්ෂණය ගැන අමතර සටහන් එක් කරන්න...',
             // Activity categories
-            environmentalImpacts: 'පාරිසරික බලපෑම්',
-            constructionDevelopment: 'ඉදිකිරීම් සහ සංවර්ධනය',
-            wildlifeAnimals: 'වන ජීවී සහ සතුන්',
-            otherActivities: 'වෙනත් ක්‍රියාකාරකම්',
-            // Environmental Impacts
-            fire: 'ගින්න',
-            deforestation: 'වන විනාශය',
-            mining: 'පතල් කැණීම',
-            wastePollution: 'අපද්‍රව්‍ය සහ දූෂණය',
+            threatsAndHumanActivities: 'තර්ජන සහ මානව ක්‍රියාකාරකම්',
+            // Activities
+            fire: 'ගිනි ගැනීම්',
+            deforestation: 'වන හායනය',
+            mining: 'කැණීම කටයුතු',
             wasteDisposal: 'අපද්‍රව්‍ය බැහැර කිරීම',
-            plasticPolythene: 'ප්ලාස්ටික් සහ පොලිතීන්',
-            // Construction & Development
-            constructions: 'ඉදිකිරීම්',
-            // Wildlife & Animals
-            domesticAnimal: 'ගෘහ සතුන්',
-            hunting: 'දඩයම්',
-            // Other Activities
-            illegalBehaviour: 'නීති විරෝධී හැසිරීම',
-            other: 'වෙනත්',
+            construction: 'ඉදිකිරීම් කටයුතු',
+            domesticAnimals: 'ගෘහාශ්‍රිත සතුන්',
+            huntingCollection: 'දඩයම් කිරීම / ජීවීන් එකතු කිරීම',
+            feedingWildAnimals: 'වන සතුන්ට ආහාර දීම',
+            illegalBehaviour: 'අවිනීතික හැසිරීම්',
             // Time options
             morning: 'උදෑසන',
             noon: 'මධ්‍යාහ්නය',
@@ -119,18 +104,18 @@ const HumanActivityDataCollection = () => {
             night: 'රාත්‍රිය'
         },
         ta: {
-            title: 'மனித செயல்பாடு',
-            activityType: 'செயல்பாடு வகை',
+            title: 'மனித செயற்பாடுகள்',
+            activityType: 'செயற்பாட்டு வகை',
             selectActivityType: 'செயல்பாடு வகையைத் தேர்ந்தெடுக்கவும்',
             photo: 'புகைப்படம்',
-            date: 'தேதி',
+            date: 'திகதி',
             timeOfDay: 'நாளின் நேரம்',
             description: 'விளக்கம் (விருப்பமானது)',
             submit: 'சமர்ப்பிக்கவும்',
-            photoPlaceholder: 'புகைப்படத்தைப் பதிவேற்ற அல்லது எடுக்க தட்டவும்',
+            photoPlaceholder: 'புகைப்படத்தைப் பதிவேற்ற அழுத்தவும் எடுக்க தட்டவும்',
             chooseOption: 'ஒரு விருப்பத்தைத் தேர்ந்தெடுக்கவும்',
             camera: 'கேமரா',
-            gallery: 'கேலரி',
+            gallery: 'புகைப்படங்கள்',
             cancel: 'ரத்துசெய்',
             requiredField: 'தேவையான புலம்',
             selectActivityAlert: 'தயவுசெய்து ஒரு செயல்பாடு வகையைத் தேர்ந்தெடுக்கவும்',
@@ -138,25 +123,17 @@ const HumanActivityDataCollection = () => {
             selectTimeOfDay: 'தயவுசெய்து நாளின் நேரத்தைத் தேர்ந்தெடுக்கவும்',
             descriptionPlaceholder: 'உங்கள் கவனிப்பு பற்றிய கூடுதல் குறிப்புகளைச் சேர்க்கவும்...',
             // Activity categories
-            environmentalImpacts: 'சுற்றுச்சூழல் தாக்கங்கள்',
-            constructionDevelopment: 'கட்டுமானம் & மேம்பாடு',
-            wildlifeAnimals: 'வனவிலங்குகள் & விலங்குகள்',
-            otherActivities: 'பிற செயல்பாடுகள்',
-            // Environmental Impacts
+            threatsAndHumanActivities: 'அச்சுறுத்தல் மற்றும் மனித நடவடிக்கைகள்',
+            // Activities
             fire: 'தீ',
             deforestation: 'காடழிப்பு',
-            mining: 'சுரங்கம்',
-            wastePollution: 'கழிவு & மாசுபாடு',
-            wasteDisposal: 'கழிவு அகற்றல்',
-            plasticPolythene: 'பிளாஸ்டிக் மற்றும் பாலித்தீன்',
-            // Construction & Development
-            constructions: 'கட்டுமானங்கள்',
-            // Wildlife & Animals
-            domesticAnimal: 'வீட்டு விலங்கு',
-            hunting: 'வேட்டையாடுதல்',
-            // Other Activities
+            mining: 'அகழ்வுப் பணிகள்',
+            wasteDisposal: 'கழிவுகள்',
+            construction: 'கட்டுமானம்',
+            domesticAnimals: 'வீட்டு விலங்குகள்',
+            huntingCollection: 'வேட்டையாடுதல் / உயிரினங்களை சேகரித்தல்',
+            feedingWildAnimals: 'காட்டு விலங்குகளுக்கு உணவளித்தல்',
             illegalBehaviour: 'சட்டவிரோத நடத்தை',
-            other: 'மற்றவை',
             // Time options
             morning: 'காலை',
             noon: 'மதியம்',
@@ -185,24 +162,16 @@ const HumanActivityDataCollection = () => {
     const t = translations[currentLanguage] || translations.en;
 
     const activityCategories = {
-        [t.environmentalImpacts]: [
+        [t.threatsAndHumanActivities]: [
             { value: 'Fire', label: t.fire },
             { value: 'Deforestation', label: t.deforestation },
             { value: 'Mining', label: t.mining },
-            { value: 'Waste & Pollution', label: t.wastePollution },
             { value: 'Waste disposal', label: t.wasteDisposal },
-            { value: 'Plastic and polythene', label: t.plasticPolythene }
-        ],
-        [t.constructionDevelopment]: [
-            { value: 'Constructions', label: t.constructions }
-        ],
-        [t.wildlifeAnimals]: [
-            { value: 'Domestic Animal', label: t.domesticAnimal },
-            { value: 'Hunting', label: t.hunting }
-        ],
-        [t.otherActivities]: [
-            { value: 'Illegal behaviour', label: t.illegalBehaviour },
-            { value: 'Other', label: t.other }
+            { value: 'Construction', label: t.construction },
+            { value: 'Domestic animals', label: t.domesticAnimals },
+            { value: 'Hunting and collection of species', label: t.huntingCollection },
+            { value: 'Feeding of wild animals', label: t.feedingWildAnimals },
+            { value: 'Illegal behaviour', label: t.illegalBehaviour }
         ]
     };
 
@@ -295,6 +264,7 @@ const HumanActivityDataCollection = () => {
             description
         };
         console.log('Submit observation:', observationData);
+        setSubmittedData(observationData);
         setIsAlertVisible(true);
     };
 
@@ -579,13 +549,11 @@ const HumanActivityDataCollection = () => {
                 visible={isAlertVisible}
                 onClose={() => {
                     setIsAlertVisible(false);
-                    // Reset form
-                    setActivityType('');
-                    setPhoto(null);
-                    setDate(new Date());
-                    setTimeOfDay('');
-                    setDescription('');
-                    navigation.goBack();
+                    // Navigate to CreditInterface
+                    navigation.navigate('CreditInterface', {
+                        observationData: submittedData,
+                        observationType: 'humanActivity'
+                    });
                 }}
                 language={currentLanguage as 'en' | 'si' | 'ta'}
             />
@@ -620,7 +588,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 32,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
         color: '#4A7856',
         fontWeight: 'bold',
     },
@@ -635,7 +603,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         marginBottom: 8,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     required: {
         color: '#E74C3C',
@@ -654,7 +622,7 @@ const styles = StyleSheet.create({
     dropdownText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     placeholder: {
         color: '#999',
@@ -676,7 +644,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontSize: 14,
         color: '#999',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     photoContainer: {
         width: '100%',
@@ -724,7 +692,7 @@ const styles = StyleSheet.create({
     dateText: {
         fontSize: 16,
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     radioContainer: {
         marginTop: 5,
@@ -743,7 +711,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         marginLeft: 5,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     textArea: {
         borderWidth: 1,
@@ -754,7 +722,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         minHeight: 100,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     submitButton: {
         backgroundColor: '#4A7856',
@@ -778,7 +746,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#FFFFFF',
         fontWeight: 'bold',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     // Modal Styles
     modalOverlay: {
@@ -805,7 +773,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     modalCloseButton: {
         padding: 5,
@@ -822,7 +790,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#4A7856',
         marginBottom: 12,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     activityGrid: {
         flexDirection: 'row',
@@ -845,7 +813,7 @@ const styles = StyleSheet.create({
     activityOptionText: {
         fontSize: 15,
         color: '#333',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     activityOptionTextSelected: {
         color: '#FFFFFF',
@@ -885,7 +853,7 @@ const styles = StyleSheet.create({
         color: '#333',
         textAlign: 'center',
         marginBottom: 25,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     imagePickerOptions: {
         flexDirection: 'row',
@@ -907,7 +875,7 @@ const styles = StyleSheet.create({
         color: '#333',
         marginTop: 10,
         fontWeight: '600',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     imagePickerCancelButton: {
         backgroundColor: '#F5F5F5',
@@ -921,7 +889,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#666',
         fontWeight: '600',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
 });
 

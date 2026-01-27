@@ -79,7 +79,8 @@ const CitizenDashboard = () => {
     const t = translations[currentLanguage] || translations.en;
 
     const handleBackPress = () => {
-        navigation.goBack();
+        // @ts-ignore - LanguageSelection is a valid route
+        navigation.navigate('LanguageSelection');
     };
 
     const handleCategoryPress = (category) => {
@@ -275,7 +276,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 28,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
         color: '#4A7856',
         fontWeight: 'bold',
         textAlign: 'center',
@@ -321,7 +322,7 @@ const styles = StyleSheet.create({
     },
     cardText: {
         fontSize: 20,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
         color: '#FFFFFF',
         fontWeight: 'bold',
     },
@@ -344,7 +345,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: '#666',
         marginTop: 4,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
     },
     adContainer: {
         marginHorizontal: 20,
@@ -371,13 +372,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         color: '#2E7D32',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     adMessage: {
         fontSize: 12,
         color: '#4A7856',
         marginTop: 2,
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
     adButton: {
         backgroundColor: '#4A7856',
@@ -389,7 +390,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 14,
         fontWeight: '600',
-        fontFamily: 'serif',
+        fontFamily: 'Times New Roman',
     },
 });
 

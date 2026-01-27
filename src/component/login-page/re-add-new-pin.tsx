@@ -372,18 +372,18 @@ const styles = StyleSheet.create({
   },
   sub_text_A: {
     fontSize: 18,
-    fontFamily: 'Inter-regular',
+    fontFamily: 'Times New Roman',
     color: '#000000',
     textAlign: 'left',
   },
   title_container: {
     flex: 1,
-    fontFamily: 'Inter-Bold',
+    fontFamily: 'Times New Roman',
     marginTop: '20%',
   },
   main_text: {
     fontSize: 40,
-    fontFamily: 'Inter-Bold',
+    fontFamily: 'Times New Roman',
     color: 'black',
     fontWeight: 'bold',
     marginTop: 10,
@@ -414,7 +414,7 @@ const styles = StyleSheet.create({
   button_signup: {
     width: '90%',
     marginTop: 30,
-    fontFamily: 'Inter-regular',
+    fontFamily: 'Times New Roman',
     borderRadius: 8,
   },
   button_label: {

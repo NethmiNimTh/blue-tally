@@ -204,12 +204,12 @@ const styles = StyleSheet.create({
   },
   title_container: {
     flex: 1,
-    fontFamily: 'Inter-Bold',
+    fontFamily: 'Times New Roman',
     marginTop: '20%',
   },
   main_text: {
     fontSize: 40,
-    fontFamily: 'Inter-Bold',
+    fontFamily: 'Times New Roman',
     color: 'black',
     fontWeight: 'bold',
     marginTop: 10,
@@ -217,13 +217,13 @@ const styles = StyleSheet.create({
   },
   sub_text: {
     fontSize: 18,
-    fontFamily: 'Inter-regular',
+    fontFamily: 'Times New Roman',
     color: '#000000',
     textAlign: 'center',
   },
   sub_text_bold: {
     fontSize: 20,
-    fontFamily: 'Inter-regular',
+    fontFamily: 'Times New Roman',
     color: '#000000',
     textAlign: 'center',
     fontWeight: 'bold',
@@ -266,13 +266,13 @@ const styles = StyleSheet.create({
   },
   sub_text_A: {
     fontSize: 16,
-    fontFamily: 'Inter-regular',
+    fontFamily: 'Times New Roman',
     color: '#000000',
     textAlign: 'right',
   },
   sub_text_B: {
     fontSize: 16,
-    fontFamily: 'Inter-regular',
+    fontFamily: 'Times New Roman',
     color: '#000000',
     textAlign: 'center',
     fontWeight: 'bold',

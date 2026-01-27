@@ -1840,13 +1840,13 @@ const styles = StyleSheet.create({
   },
   title_container: {
     flex: 1,
-    fontFamily: 'Inter-Bold',
+    fontFamily: 'Times New Roman',
     marginTop: '20%',
   },
 
   main_text: {
     fontSize: 20,
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: 'Times New Roman',
     color: '#434343',
     marginTop: 10,
     marginBottom: 10,
@@ -1875,7 +1875,7 @@ const styles = StyleSheet.create({
   },
   main_text3: {
     fontSize: 20,
-    fontFamily: 'InriaSerif-Bold',
+    fontFamily: 'Times New Roman',
     color: '#434343',
     marginTop: 10,
     marginBottom: 10,
@@ -1883,13 +1883,13 @@ const styles = StyleSheet.create({
   },
   sub_text: {
     fontSize: 16,
-    fontFamily: 'Inter-regular',
+    fontFamily: 'Times New Roman',
     color: '#000000',
     textAlign: 'center',
   },
   sub_text_bold: {
     fontSize: 16,
-    fontFamily: 'Inter-regular',
+    fontFamily: 'Times New Roman',
     color: '#000000',
     textAlign: 'center',
     fontWeight: 'bold',
@@ -1973,20 +1973,20 @@ const styles = StyleSheet.create({
     width: '90%',
     marginTop: 30,
     marginBottom: 30,
-    fontFamily: 'Inter-regular',
+    fontFamily: 'Times New Roman',
   },
   button_label: {
     fontSize: 18,
   },
   sub_text_A: {
     fontSize: 16,
-    fontFamily: 'Inter-regular',
+    fontFamily: 'Times New Roman',
     color: '#000000',
     textAlign: 'right',
   },
   sub_text_B: {
     fontSize: 16,
-    fontFamily: 'Inter-regular',
+    fontFamily: 'Times New Roman',
     color: '#000000',
     textAlign: 'center',
     fontWeight: 'bold',

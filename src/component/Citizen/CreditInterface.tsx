@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, SafeAreaView, Platform, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, SafeAreaView, Alert, ActivityIndicator } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { plantApi } from '../../api/plantapi';
@@ -39,18 +39,18 @@ const PhotoInformation = () => {
             tryAgain: 'Please try again later.'
         },
         si: {
-            headerTitle: 'ඡායාරූප තොරතුරු',
-            sectionTitle: 'ඡායාරූප ණය තොරතුරු',
-            infoText: 'ඔබ උඩුගත කළ ඡායාරූපය ගැන වැඩිදුර දැනගැනීමට අවශ්‍ය නම්, කරුණාකර ඔබගේ සම්බන්ධතා විස්තර තබන්න.',
-            contactLabel: 'ජංගම දුරකථන අංකය හෝ විද්‍යුත් තැපෑල (අත්‍යවශ්‍ය නොවේ)',
-            contactPlaceholder: 'ඔබේ සම්බන්ධතා තොරතුරු',
-            helperText: 'මෙම තොරතුරු පරිපාලකයා සමඟ බෙදා ගනු ඇත.',
-            permissionQuestion: 'කරුණාකර අපට මෙම ඡායාරූපය භාවිතා කළ හැකිද යන්න සඳහන් කරන්න:',
+            headerTitle: 'ඡායාරූපය පිළිබද තොරතුරු',
+            sectionTitle: 'ඡායාරූපයේ හිමිකාරීත්වය සඳහා තොරතුරු',
+            infoText: 'ඔබ ලබා දුන් ඡායාරූපය පිළිබඳ වැඩිදුර තොරතුරු අවශ්‍යය නම් පහත තොරතුරු ලබා දෙන්න.',
+            contactLabel: 'දුරකථන අංකය / විද්‍යුත් තැපැල් ලිපිනය',
+            contactPlaceholder: 'ඔබව සම්බන්ධ කර ගත හැකි විස්තර',
+            helperText: 'මෙම තොරතුරු පරිපාලක සමග හුවමාරු වීම සිදුවේ.',
+            permissionQuestion: 'ඔබගේ ඡායාරූපය අප හට භාවිතා කිරීමට අවසර ලබා දෙන්නේ ද ? ',
             yes: 'ඔව්',
             no: 'නැත',
-            photoCreditLabel: 'ඡායාරූප ණය:',
-            photoCreditPlaceholder: 'මෙම ඡායාරූපය සඳහා අප කෙසේ ණය දිය යුතුද?',
-            submit: 'ඉදිරිපත් කරන්න',
+            photoCreditLabel: 'ඡායාරූපයේ හිමිකාරීත්වය:',
+            photoCreditPlaceholder: 'ඡායාරූපයේ හිමිකාරිත්වය සඳහන් විය යුතු ආකාරය පහත දක්වන්න?',
+            submit: 'දත්ත ඇතුලත් කිරීම තහවුරු කරන්න',
             success: 'සාර්ථකයි',
             submissionSuccess: 'ඡායාරූප තොරතුරු සාර්ථකව සුරකින ලදී!',
             submissionFailed: 'ඉදිරිපත් කිරීම අසාර්ථකයි',
@@ -161,94 +161,94 @@ const PhotoInformation = () => {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-                {/* Header */}
-                <View style={styles.header}>
-                    <Text style={styles.headerTitle}>{t.headerTitle}</Text>
-                </View>
+            {/* Header */}
+            <View style={styles.header}>
+                <Text style={styles.headerTitle}>{t.headerTitle}</Text>
+            </View>
 
-                {/* Form Container */}
+            <ScrollView
+                style={styles.scrollView}
+                contentContainerStyle={styles.scrollContent}
+                showsVerticalScrollIndicator={false}
+            >
                 <View style={styles.formContainer}>
-                    {/* Photo Credits Information Section */}
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>{t.sectionTitle}</Text>
-                        
-                        <Text style={styles.infoText}>
-                            {t.infoText}
+                    <Text style={styles.sectionTitle}>{t.sectionTitle}</Text>
+
+                    <Text style={styles.infoText}>
+                        {t.infoText}
+                    </Text>
+
+                    {/* Contact Information Input */}
+                    <View style={styles.inputGroup}>
+                        <Text style={styles.label}>{t.contactLabel}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={t.contactPlaceholder}
+                            placeholderTextColor="#AAA"
+                            value={contactInfo}
+                            onChangeText={setContactInfo}
+                        />
+                        <Text style={styles.helperText}>
+                            {t.helperText}
+                        </Text>
+                    </View>
+
+                    {/* Permission Section */}
+                    <View style={styles.inputGroup}>
+                        <Text style={styles.questionText}>
+                            {t.permissionQuestion}
                         </Text>
 
-                        {/* Contact Information Input */}
-                        <View style={styles.inputGroup}>
-                            <Text style={styles.label}>{t.contactLabel}</Text>
-                            <TextInput
-                                style={styles.textInput}
-                                placeholder={t.contactPlaceholder}
-                                placeholderTextColor="#CCC"
-                                value={contactInfo}
-                                onChangeText={setContactInfo}
-                            />
-                            <Text style={styles.helperText}>
-                                {t.helperText}
-                            </Text>
+                        <View style={styles.radioGroup}>
+                            <TouchableOpacity
+                                style={styles.radioOption}
+                                onPress={() => setCanUsePhoto('Yes')}
+                                activeOpacity={0.7}
+                            >
+                                <View style={styles.radioButton}>
+                                    {canUsePhoto === 'Yes' && <View style={styles.radioButtonSelected} />}
+                                </View>
+                                <Text style={styles.radioLabel}>{t.yes}</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={styles.radioOption}
+                                onPress={() => setCanUsePhoto('No')}
+                                activeOpacity={0.7}
+                            >
+                                <View style={styles.radioButton}>
+                                    {canUsePhoto === 'No' && <View style={styles.radioButtonSelected} />}
+                                </View>
+                                <Text style={styles.radioLabel}>{t.no}</Text>
+                            </TouchableOpacity>
                         </View>
-
-                        {/* Permission Section */}
-                        <View style={styles.inputGroup}>
-                            <Text style={styles.questionText}>
-                                {t.permissionQuestion}
-                            </Text>
-                            
-                            <View style={styles.radioGroup}>
-                                <TouchableOpacity 
-                                    style={styles.radioOption}
-                                    onPress={() => setCanUsePhoto('Yes')}
-                                    activeOpacity={0.7}
-                                >
-                                    <View style={styles.radioButton}>
-                                        {canUsePhoto === 'Yes' && <View style={styles.radioButtonSelected} />}
-                                    </View>
-                                    <Text style={styles.radioLabel}>{t.yes}</Text>
-                                </TouchableOpacity>
-
-                                <TouchableOpacity 
-                                    style={styles.radioOption}
-                                    onPress={() => setCanUsePhoto('No')}
-                                    activeOpacity={0.7}
-                                >
-                                    <View style={styles.radioButton}>
-                                        {canUsePhoto === 'No' && <View style={styles.radioButtonSelected} />}
-                                    </View>
-                                    <Text style={styles.radioLabel}>{t.no}</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-
-                        {/* Photo Credit Input */}
-                        <View style={styles.inputGroup}>
-                            <Text style={styles.label}>{t.photoCreditLabel}</Text>
-                            <TextInput
-                                style={styles.textInput}
-                                placeholder={t.photoCreditPlaceholder}
-                                placeholderTextColor="#CCC"
-                                value={photoCredit}
-                                onChangeText={setPhotoCredit}
-                            />
-                        </View>
-
-                        {/* Submit Button */}
-                        <TouchableOpacity
-                            style={[styles.submitButton, isSubmitting && styles.submitButtonDisabled]}
-                            onPress={handleSubmit}
-                            activeOpacity={0.8}
-                            disabled={isSubmitting}
-                        >
-                            {isSubmitting ? (
-                                <ActivityIndicator color="#FFFFFF" />
-                            ) : (
-                                <Text style={styles.submitButtonText}>{t.submit}</Text>
-                            )}
-                        </TouchableOpacity>
                     </View>
+
+                    {/* Photo Credit Input */}
+                    <View style={styles.inputGroup}>
+                        <Text style={styles.label}>{t.photoCreditLabel}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={t.photoCreditPlaceholder}
+                            placeholderTextColor="#AAA"
+                            value={photoCredit}
+                            onChangeText={setPhotoCredit}
+                        />
+                    </View>
+
+                    {/* Submit Button */}
+                    <TouchableOpacity
+                        style={[styles.submitButton, isSubmitting && styles.submitButtonDisabled]}
+                        onPress={handleSubmit}
+                        activeOpacity={0.8}
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? (
+                            <ActivityIndicator color="#FFFFFF" />
+                        ) : (
+                            <Text style={styles.submitButtonText}>{t.submit}</Text>
+                        )}
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -259,65 +259,66 @@ const PhotoInformation = () => {
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: '#E8E8E8',
+        backgroundColor: '#FFFFFF',
     },
-    container: {
+    mainContainer: {
         flex: 1,
-        backgroundColor: '#E8E8E8',
+        backgroundColor: '#FFFFFF',
+    },
+    scrollView: {
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+    },
+    scrollContent: {
+        flexGrow: 1,
+    },
+    buttonContainer: {
+        paddingHorizontal: 20,
+        paddingVertical: 20,
+        backgroundColor: '#FFFFFF',
     },
     header: {
         alignItems: 'center',
-        paddingVertical: 20,
+        paddingVertical: 15,
         paddingHorizontal: 20,
+        backgroundColor: '#4A7856',
     },
     headerTitle: {
-        fontSize: 28,
-        fontFamily: 'JejuHallasan-Regular',
-        color: '#4A7856',
+        fontSize: 24,
+        fontFamily: 'Times New Roman',
+        color: '#FFFFFF',
         fontWeight: 'bold',
     },
     formContainer: {
         paddingHorizontal: 20,
-        paddingBottom: 30,
-    },
-    section: {
+        paddingTop: 30,
         backgroundColor: '#FFFFFF',
-        borderRadius: 12,
-        padding: 20,
-        ...Platform.select({
-            ios: {
-                shadowColor: 'black',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.1,
-                shadowRadius: 4,
-            },
-            android: {
-                elevation: 3,
-            },
-        }),
     },
     sectionTitle: {
         fontSize: 18,
         fontWeight: 'bold',
         color: '#333',
         marginBottom: 15,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
     },
     infoText: {
         fontSize: 14,
         color: '#666',
         lineHeight: 20,
         marginBottom: 20,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
     },
     inputGroup: {
         marginBottom: 20,
+    },
+    inputGroupLast: {
+        marginBottom: 5,
     },
     label: {
         fontSize: 14,
         color: '#666',
         marginBottom: 8,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
     },
     textInput: {
         borderWidth: 1,
@@ -328,20 +329,21 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: '#333',
         backgroundColor: '#FAFAFA',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
+        textAlign: 'center',
     },
     helperText: {
         fontSize: 12,
         color: '#999',
         marginTop: 6,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
     },
     questionText: {
         fontSize: 15,
         color: '#666',
         marginBottom: 15,
         fontWeight: '500',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
     },
     radioGroup: {
         flexDirection: 'row',
@@ -370,31 +372,21 @@ const styles = StyleSheet.create({
     radioLabel: {
         fontSize: 15,
         color: '#333',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
     },
     submitButton: {
         backgroundColor: '#4A7856',
-        borderRadius: 8,
-        paddingVertical: 15,
+        borderRadius: 10,
+        paddingVertical: 16,
         alignItems: 'center',
         marginTop: 10,
-        ...Platform.select({
-            ios: {
-                shadowColor: 'black',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.2,
-                shadowRadius: 4,
-            },
-            android: {
-                elevation: 4,
-            },
-        }),
+        marginBottom: 20,
     },
     submitButtonText: {
         fontSize: 18,
         color: '#FFFFFF',
         fontWeight: 'bold',
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
     },
     submitButtonDisabled: {
         backgroundColor: '#8AAB91',

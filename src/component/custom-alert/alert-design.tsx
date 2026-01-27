@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     color: '#1F2937',
     marginBottom: 15,
     textAlign: 'center',
-    fontFamily: 'serif',
+    fontFamily: 'Times New Roman',
   },
   message: {
     fontSize: 16,
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     marginBottom: 25,
     paddingHorizontal: 10,
-    fontFamily: 'serif',
+    fontFamily: 'Times New Roman',
   },
   button: {
     backgroundColor: '#39c66dd6',
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: '600',
-    fontFamily: 'serif',
+    fontFamily: 'Times New Roman',
   },
 });
 

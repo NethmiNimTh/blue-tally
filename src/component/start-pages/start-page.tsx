@@ -129,13 +129,13 @@ const styles = StyleSheet.create({
     },
     logoText: {
         fontSize: 48,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
         marginBottom: 20,
         letterSpacing: 2,
     },
     nameText: {
         fontSize: 52,
-        fontFamily: 'JejuHallasan-Regular',
+        fontFamily: 'Times New Roman',
         letterSpacing: 3,
     },
     buttonGroup: {
