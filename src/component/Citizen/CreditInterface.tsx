@@ -193,6 +193,18 @@ const PhotoInformation = () => {
                         </Text>
                     </View>
 
+                    {/* Photo Credit Input */}
+                    <View style={styles.inputGroup}>
+                        <Text style={styles.label}>{t.photoCreditLabel}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={t.photoCreditPlaceholder}
+                            placeholderTextColor="#AAA"
+                            value={photoCredit}
+                            onChangeText={setPhotoCredit}
+                        />
+                    </View>
+
                     {/* Permission Section */}
                     <View style={styles.inputGroup}>
                         <Text style={styles.questionText}>
@@ -222,18 +234,6 @@ const PhotoInformation = () => {
                                 <Text style={styles.radioLabel}>{t.no}</Text>
                             </TouchableOpacity>
                         </View>
-                    </View>
-
-                    {/* Photo Credit Input */}
-                    <View style={styles.inputGroup}>
-                        <Text style={styles.label}>{t.photoCreditLabel}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder={t.photoCreditPlaceholder}
-                            placeholderTextColor="#AAA"
-                            value={photoCredit}
-                            onChangeText={setPhotoCredit}
-                        />
                     </View>
 
                     {/* Submit Button */}
@@ -298,14 +298,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         color: '#333',
-        marginBottom: 15,
+        marginBottom: 25,
         fontFamily: 'Times New Roman',
     },
     infoText: {
         fontSize: 14,
         color: '#666',
         lineHeight: 20,
-        marginBottom: 20,
+        marginBottom: 50,
         fontFamily: 'Times New Roman',
     },
     inputGroup: {
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 14,
         color: '#666',
-        marginBottom: 8,
+        marginBottom: 10,
         fontFamily: 'Times New Roman',
     },
     textInput: {
@@ -336,18 +336,20 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: '#999',
         marginTop: 6,
+        marginBottom: 30,
         fontFamily: 'Times New Roman',
     },
     questionText: {
         fontSize: 15,
         color: '#666',
-        marginBottom: 15,
+        marginBottom: 30,
         fontWeight: '500',
         fontFamily: 'Times New Roman',
     },
     radioGroup: {
         flexDirection: 'row',
-        gap: 30,
+        justifyContent: 'space-between',
+        paddingHorizontal: 40,
     },
     radioOption: {
         flexDirection: 'row',
@@ -362,6 +364,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 8,
+        marginBottom: 50,
     },
     radioButtonSelected: {
         width: 12,

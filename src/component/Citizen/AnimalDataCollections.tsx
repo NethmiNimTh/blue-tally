@@ -57,6 +57,8 @@ const AnimalDataCollection = () => {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [timeOfDay, setTimeOfDay] = useState('');
     const [description, setDescription] = useState('');
+    const [commonName, setCommonName] = useState('');
+    const [scientificName, setScientificName] = useState('');
 
     // Translation object
     const translations = {
@@ -100,7 +102,13 @@ const AnimalDataCollection = () => {
             morning: 'Morning',
             noon: 'Noon',
             evening: 'Evening',
-            night: 'Night'
+            night: 'Night',
+            // Identification fields
+            identificationSection: 'If you can identify the observation',
+            commonName: 'Common Name',
+            scientificName: 'Scientific Name',
+            commonNamePlaceholder: 'Enter common name',
+            scientificNamePlaceholder: 'Enter scientific name'
         },
         si: {
             title: 'සතුන්',
@@ -141,7 +149,13 @@ const AnimalDataCollection = () => {
             morning: 'උදෑසන',
             noon: 'මධ්‍යාහනය',
             evening: 'සවස',
-            night: 'රාත්‍රිය'
+            night: 'රාත්‍රිය',
+            // Identification fields
+            identificationSection: 'නිරීක්ෂණය හඳුනාගන්නේ නම්',
+            commonName: 'පොදු නාමය',
+            scientificName: 'විදාත්මක නාමය',
+            commonNamePlaceholder: 'පොදු නාමය ඇතුළත් කරන්න',
+            scientificNamePlaceholder: 'විදාත්මක නාමය ඇතුළත් කරන්න'
         },
         ta: {
             title: 'விலங்குகள்',
@@ -182,7 +196,13 @@ const AnimalDataCollection = () => {
             morning: 'காலை',
             noon: 'மதியம்',
             evening: 'மாலை',
-            night: 'இரவு'
+            night: 'இரவு',
+            // Identification fields
+            identificationSection: 'கவனிப்பை அடையாளம் காண முடிந்தால்',
+            commonName: 'பொதுப் பெயர்',
+            scientificName: 'அறிவியல் பெயர்',
+            commonNamePlaceholder: 'பொதுப் பெயரை உள்ளிடவும்',
+            scientificNamePlaceholder: 'அறிவியல் பெயரை உள்ளிடவும்'
         }
     };
 
@@ -326,7 +346,9 @@ const AnimalDataCollection = () => {
                 photo: base64Photo,
                 date: date.toISOString().split('T')[0],
                 timeOfDay,
-                description
+                description,
+                commonName: commonName.trim() || undefined,
+                scientificName: scientificName.trim() || undefined
             };
 
             const response = await animalApi.createAnimal(observationData);
@@ -389,6 +411,33 @@ const AnimalDataCollection = () => {
                             </Text>
                             <Icon name="arrow-drop-down" size={24} color="#666" />
                         </TouchableOpacity>
+                    </View>
+
+                    {/* Identification Section - Optional */}
+                    <View style={styles.inputGroup}>
+                        <Text style={styles.sectionTitle}>{lang.identificationSection}</Text>
+
+                        {/* Common Name */}
+                        <Text style={styles.label}>{lang.commonName}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={lang.commonNamePlaceholder}
+                            placeholderTextColor="#AAA"
+                            value={commonName}
+                            onChangeText={setCommonName}
+                            editable={!isSubmitting}
+                        />
+
+                        {/* Scientific Name */}
+                        <Text style={[styles.label, { marginTop: 12 }]}>{lang.scientificName}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={lang.scientificNamePlaceholder}
+                            placeholderTextColor="#AAA"
+                            value={scientificName}
+                            onChangeText={setScientificName}
+                            editable={!isSubmitting}
+                        />
                     </View>
 
                     {/* Photo Upload */}
@@ -694,6 +743,24 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         marginBottom: 8,
+        fontFamily: 'Times New Roman',
+    },
+    sectionTitle: {
+        fontSize: 16,
+        color: '#333',
+        marginBottom: 12,
+        fontFamily: 'Times New Roman',
+        fontWeight: '500',
+    },
+    textInput: {
+        borderWidth: 1,
+        borderColor: '#DDD',
+        borderRadius: 8,
+        paddingHorizontal: 15,
+        paddingVertical: 12,
+        fontSize: 16,
+        color: '#333',
+        backgroundColor: '#FFFFFF',
         fontFamily: 'Times New Roman',
     },
     required: {

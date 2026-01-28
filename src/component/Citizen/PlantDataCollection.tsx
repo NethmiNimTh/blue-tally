@@ -40,6 +40,8 @@ const PlantDataCollection = () => {
     const [timeOfDay, setTimeOfDay] = useState('Morning');
     const [showTimePicker, setShowTimePicker] = useState(false);
     const [description, setDescription] = useState('');
+    const [commonName, setCommonName] = useState('');
+    const [scientificName, setScientificName] = useState('');
 
     // Translation object
     const translations = {
@@ -84,7 +86,13 @@ const PlantDataCollection = () => {
             morning: 'Morning',
             noon: 'Noon',
             evening: 'Evening',
-            night: 'Night'
+            night: 'Night',
+            // Identification fields
+            identificationSection: 'If you can identify the observation',
+            commonName: 'Common Name',
+            scientificName: 'Scientific Name',
+            commonNamePlaceholder: 'Enter common name',
+            scientificNamePlaceholder: 'Enter scientific name'
         },
         si: {
             title: 'ශාක',
@@ -127,7 +135,13 @@ const PlantDataCollection = () => {
             morning: 'උදෑසන',
             noon: 'මධ්‍යාහනය',
             evening: 'සවස',
-            night: 'රාත්‍රිය'
+            night: 'රාත්‍රිය',
+            // Identification fields
+            identificationSection: 'නිරීක්ෂණය හඳුනාගන්නේ නම්',
+            commonName: 'පොදු නාමය',
+            scientificName: 'විදාත්මක නාමය',
+            commonNamePlaceholder: 'පොදු නාමය ඇතුළත් කරන්න',
+            scientificNamePlaceholder: 'විදාත්මක නාමය ඇතුළත් කරන්න'
         },
         ta: {
             title: 'தாவரம்',
@@ -170,7 +184,13 @@ const PlantDataCollection = () => {
             morning: 'காலை',
             noon: 'மதியம்',
             evening: 'மாலை',
-            night: 'இரவு'
+            night: 'இரவு',
+            // Identification fields
+            identificationSection: 'கவனிப்பை அடையாளம் காண முடிந்தால்',
+            commonName: 'பொதுப் பெயர்',
+            scientificName: 'அறிவியல் பெயர்',
+            commonNamePlaceholder: 'பொதுப் பெயரை உள்ளிடவும்',
+            scientificNamePlaceholder: 'அறிவியல் பெயரை உள்ளிடவும்'
         }
     };
 
@@ -309,6 +329,8 @@ const PlantDataCollection = () => {
                 date: date.toISOString().split('T')[0],
                 timeOfDay,
                 description: description.trim() || undefined,
+                commonName: commonName.trim() || undefined,
+                scientificName: scientificName.trim() || undefined,
             };
 
             console.log('Submitting plant observation to backend...');
@@ -427,6 +449,33 @@ const PlantDataCollection = () => {
                                 </TouchableOpacity>
                             ))}
                         </View>
+                    </View>
+
+                    {/* Identification Section - Optional */}
+                    <View style={styles.inputGroup}>
+                        <Text style={styles.identificationTitle}>{t.identificationSection}</Text>
+
+                        {/* Common Name */}
+                        <Text style={styles.label}>{t.commonName}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={t.commonNamePlaceholder}
+                            placeholderTextColor="#AAA"
+                            value={commonName}
+                            onChangeText={setCommonName}
+                            editable={!isSubmitting}
+                        />
+
+                        {/* Scientific Name */}
+                        <Text style={[styles.label, { marginTop: 12 }]}>{t.scientificName}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={t.scientificNamePlaceholder}
+                            placeholderTextColor="#AAA"
+                            value={scientificName}
+                            onChangeText={setScientificName}
+                            editable={!isSubmitting}
+                        />
                     </View>
 
                     {/* Photo Upload */}
@@ -717,6 +766,24 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
         marginBottom: 8,
+        fontFamily: 'Times New Roman',
+    },
+    identificationTitle: {
+        fontSize: 16,
+        color: '#333',
+        marginBottom: 12,
+        fontFamily: 'Times New Roman',
+        fontWeight: '500',
+    },
+    textInput: {
+        borderWidth: 1,
+        borderColor: '#DDD',
+        borderRadius: 8,
+        paddingHorizontal: 15,
+        paddingVertical: 12,
+        fontSize: 16,
+        color: '#333',
+        backgroundColor: '#FFFFFF',
         fontFamily: 'Times New Roman',
     },
     examplesText: {
