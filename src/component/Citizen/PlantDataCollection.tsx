@@ -151,15 +151,15 @@ const PlantDataCollection = () => {
             aquaticPlants: 'நீர்வாழ் தாவரங்கள்',
             plantType: 'தாவர வகை',
             photo: 'புகைப்படம்',
-            date: 'தேதி',
+            date: 'திகதி',
             timeOfDay: 'நாளின் நேரம்',
             description: 'விளக்கம் (விருப்பமானது)',
             submit: 'சமர்ப்பிக்கவும்',
             submitting: 'சமர்ப்பிக்கப்படுகிறது...',
-            photoPlaceholder: 'புகைப்படத்தைப் பதிவேற்ற அல்லது எடுக்க தட்டவும்',
+            photoPlaceholder: 'புகைப்படத்தைப் பதிவேற்ற அழுத்தவும் எடுக்க தட்டவும்',
             chooseOption: 'ஒரு விருப்பத்தைத் தேர்ந்தெடுக்கவும்',
             camera: 'கேமரா',
-            gallery: 'கேலரி',
+            gallery: 'புகைப்படங்கள்',
             cancel: 'ரத்துசெய்',
             selectTimeOfDay: 'நாளின் நேரத்தைத் தேர்ந்தெடுக்கவும்',
             requiredField: 'தேவையான புலம்',
@@ -451,33 +451,6 @@ const PlantDataCollection = () => {
                         </View>
                     </View>
 
-                    {/* Identification Section - Optional */}
-                    <View style={styles.inputGroup}>
-                        <Text style={styles.identificationTitle}>{t.identificationSection}</Text>
-
-                        {/* Common Name */}
-                        <Text style={styles.label}>{t.commonName}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder={t.commonNamePlaceholder}
-                            placeholderTextColor="#AAA"
-                            value={commonName}
-                            onChangeText={setCommonName}
-                            editable={!isSubmitting}
-                        />
-
-                        {/* Scientific Name */}
-                        <Text style={[styles.label, { marginTop: 12 }]}>{t.scientificName}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder={t.scientificNamePlaceholder}
-                            placeholderTextColor="#AAA"
-                            value={scientificName}
-                            onChangeText={setScientificName}
-                            editable={!isSubmitting}
-                        />
-                    </View>
-
                     {/* Photo Upload */}
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>{t.photo}</Text>
@@ -557,6 +530,33 @@ const PlantDataCollection = () => {
                             value={description}
                             onChangeText={setDescription}
                             textAlignVertical="top"
+                            editable={!isSubmitting}
+                        />
+                    </View>
+
+                    {/* Identification Section - Optional */}
+                    <View style={styles.inputGroup}>
+                        <Text style={styles.identificationTitle}>{t.identificationSection}</Text>
+
+                        {/* Common Name */}
+                        <Text style={styles.label}>{t.commonName}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={t.commonNamePlaceholder}
+                            placeholderTextColor="#AAA"
+                            value={commonName}
+                            onChangeText={setCommonName}
+                            editable={!isSubmitting}
+                        />
+
+                        {/* Scientific Name */}
+                        <Text style={[styles.label, { marginTop: 12 }]}>{t.scientificName}</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder={t.scientificNamePlaceholder}
+                            placeholderTextColor="#AAA"
+                            value={scientificName}
+                            onChangeText={setScientificName}
                             editable={!isSubmitting}
                         />
                     </View>
