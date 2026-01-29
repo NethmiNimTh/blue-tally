@@ -68,15 +68,16 @@ const HumanActivityDataCollection = () => {
         },
         si: {
             title: 'මානව ක්‍රියාකාරකම්',
-            activityType: 'ක්‍රියාකාරකම් වර්ගය',
-            selectActivityType: 'ක්‍රියාකාරකම් වර්ගය තෝරන්න',
+            activityType: 'මානව ක්‍රියාකාරකම් කාණ්ඩය',
+            selectActivityType: 'ක්‍රියාකාරකම් කාණ්ඩය තෝරන්න',
             photo: 'ඡායාරූපය',
             date: 'දිනය',
             timeOfDay: 'දවසේ වේලාව',
             description: 'විස්තරය (අත්‍යවශ්‍ය නොවේ)',
-            submit: 'ඉදිරිපත් කරන්න',
+            submit: 'දත්ත ඇතුලත් කිරීම තහවුරු කරන්න',
+            submitting: 'දත්ත ඇතුලත් කිරීම තහවුරු කරමින්...',
             photoPlaceholder: 'ඡායාරූපය ගැනීම/ ඇතුලත් කිරීම මෙහිදී සිදු කරන්න',
-            chooseOption: 'විකල්පයක් තෝරන්න',
+            chooseOption: ' තෝරන්න',
             camera: 'කැමරාව',
             gallery: 'ගැලරිය',
             cancel: 'අවලංගු කරන්න',
@@ -99,14 +100,14 @@ const HumanActivityDataCollection = () => {
             illegalBehaviour: 'අවිනීතික හැසිරීම්',
             // Time options
             morning: 'උදෑසන',
-            noon: 'මධ්‍යාහ්නය',
+            noon: 'මධ්‍යහනය',
             evening: 'සවස',
             night: 'රාත්‍රිය'
         },
         ta: {
             title: 'மனித செயற்பாடுகள்',
             activityType: 'செயற்பாட்டு வகை',
-            selectActivityType: 'செயல்பாடு வகையைத் தேர்ந்தெடுக்கவும்',
+            selectActivityType: 'செயற்பாட்டு வகையைத் தேர்ந்தெடுக்கவும்',
             photo: 'புகைப்படம்',
             date: 'திகதி',
             timeOfDay: 'நாளின் நேரம்',
@@ -301,6 +302,7 @@ const HumanActivityDataCollection = () => {
                 </View>
 
                 {/* Form Content */}
+                <View style={styles.frameContainer}>
                 <View style={styles.formContainer}>
                     {/* Activity Type Dropdown */}
                     <View style={styles.inputGroup}>
@@ -452,6 +454,7 @@ const HumanActivityDataCollection = () => {
                         <Text style={styles.submitButtonText}>{t.submit}</Text>
                     </TouchableOpacity>
                 </View>
+                </View>
             </ScrollView>
 
             {/* Activity Type Picker Modal */}
@@ -498,8 +501,11 @@ const HumanActivityDataCollection = () => {
                                     </View>
                                 </View>
                             ))}
+                            
                         </ScrollView>
+                        
                     </View>
+                    
                 </View>
             </Modal>
 
@@ -747,6 +753,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontWeight: 'bold',
         fontFamily: 'Times New Roman',
+        textAlign: 'center',
     },
     // Modal Styles
     modalOverlay: {
@@ -891,6 +898,26 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontFamily: 'Times New Roman',
     },
+    frameContainer: {
+    marginHorizontal: 15,
+    marginBottom: 25,
+    borderWidth: 2,
+    borderColor: '#4A7856',
+    borderRadius: 18,
+    backgroundColor: '#FFFFFF',
+    paddingTop: 10,
+    ...Platform.select({
+        ios: {
+            shadowColor: 'black',
+            shadowOffset: { width: 0, height: 3 },
+            shadowOpacity: 0.15,
+            shadowRadius: 6,
+        },
+        android: {
+            elevation: 6,
+        },
+    }),
+},
 });
 
 export default HumanActivityDataCollection;

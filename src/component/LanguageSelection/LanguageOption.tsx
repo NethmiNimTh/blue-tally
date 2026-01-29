@@ -71,8 +71,9 @@ const LanguageSelection = () => {
                     <View style={styles.headerCard}>
                         <Icon name="language" size={40} color="#FFFFFF" />
                         <Text style={styles.headerTitle}>භාෂාව තෝරන්න</Text>
-                        <Text style={styles.headerTitle}>Select Language</Text>
                         <Text style={styles.headerTitle}>மொழியைத் தேர்ந்தெடுக்கவும்</Text>
+                        <Text style={styles.headerTitle}>Select Language</Text>
+                        
                     </View>
 
                     {/* Language Options Card */}

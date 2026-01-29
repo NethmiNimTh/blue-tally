@@ -29,9 +29,9 @@ const CitizenDashboard = () => {
         },
         si: {
             title1: 'කරුණාකර ඔබේ',
-            title2: 'නිරීක්ෂණ උඩුගත කරන්න',
+            title2: 'නිරීක්ෂණ ඇතුලත් කරන්න',
             plants: 'ශාක',
-            nature: 'ස්වභාවධර්මය',
+            nature: 'පරිසරය',
             animals: 'සතුන්',
             humanActivity: 'මානව ක්‍රියාකාරකම්',
             home: 'මුල් පිටුව',
@@ -258,6 +258,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#FFFFFF',
+        borderWidth: 3,
+        borderColor: '#4A7856',
+        borderRadius: 15,
+        margin: 10,
     },
     header: {
         paddingHorizontal: 20,

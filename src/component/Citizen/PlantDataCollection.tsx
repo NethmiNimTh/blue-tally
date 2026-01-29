@@ -23,6 +23,22 @@ import RNFS from 'react-native-fs';
 import { plantApi } from '../../api/plantapi';
 import CustomAlert from '../custom-alert/alert-design';
 
+// Custom Radio Button Component
+const CustomRadioButton = ({ selected, onPress, disabled }) => (
+    <TouchableOpacity
+        style={styles.customRadio}
+        onPress={onPress}
+        disabled={disabled}
+    >
+        <View style={[
+            styles.customRadioOuter,
+            selected && styles.customRadioOuterSelected
+        ]}>
+            {selected && <View style={styles.customRadioInner} />}
+        </View>
+    </TouchableOpacity>
+);
+
 // component
 const PlantDataCollection = () => {
     const navigation = useNavigation();
@@ -37,8 +53,7 @@ const PlantDataCollection = () => {
     const [photo, setPhoto] = useState(null);
     const [date, setDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
-    const [timeOfDay, setTimeOfDay] = useState('Morning');
-    const [showTimePicker, setShowTimePicker] = useState(false);
+    const [timeOfDay, setTimeOfDay] = useState('');
     const [description, setDescription] = useState('');
     const [commonName, setCommonName] = useState('');
     const [scientificName, setScientificName] = useState('');
@@ -88,7 +103,7 @@ const PlantDataCollection = () => {
             evening: 'Evening',
             night: 'Night',
             // Identification fields
-            identificationSection: 'If you can identify the observation',
+            identificationSection: 'If you can identify the observation (Optional)',
             commonName: 'Common Name',
             scientificName: 'Scientific Name',
             commonNamePlaceholder: 'Enter common name',
@@ -105,10 +120,10 @@ const PlantDataCollection = () => {
             date: 'දිනය',
             timeOfDay: 'දවසේ වේලාව',
             description: 'විස්තරය (අත්‍යවශ්‍ය නොවේ)',
-            submit: 'ඉදිරිපත් කරන්න',
-            submitting: 'ඉදිරිපත් කරමින්...',
+            submit: 'දත්ත ඇතුලත් කිරීම තහවුරු කරන්න',
+            submitting: 'දත්ත ඇතුලත් කිරීම තහවුරු කරමින්...',
             photoPlaceholder: 'ඡායාරූපය ගැනීම/ ඇතුලත් කිරීම මෙහිදී සිදු කරන්න',
-            chooseOption: 'විකල්පයක් තෝරන්න',
+            chooseOption: 'තෝරන්න',
             camera: 'කැමරාව',
             gallery: 'ගැලරිය',
             cancel: 'අවලංගු කරන්න',
@@ -133,11 +148,11 @@ const PlantDataCollection = () => {
             submerged: 'ජලයේ යටවූ',
             // Time options
             morning: 'උදෑසන',
-            noon: 'මධ්‍යාහනය',
+            noon: 'මධ්‍යහනය',
             evening: 'සවස',
             night: 'රාත්‍රිය',
             // Identification fields
-            identificationSection: 'නිරීක්ෂණය හඳුනාගන්නේ නම්',
+            identificationSection: 'නිරීක්ෂණය හඳුනාගත්තේ නම් (අත්‍යවශ්‍ය නොවේ)',
             commonName: 'පොදු නාමය',
             scientificName: 'විදාත්මක නාමය',
             commonNamePlaceholder: 'පොදු නාමය ඇතුළත් කරන්න',
@@ -186,7 +201,7 @@ const PlantDataCollection = () => {
             evening: 'மாலை',
             night: 'இரவு',
             // Identification fields
-            identificationSection: 'கவனிப்பை அடையாளம் காண முடிந்தால்',
+            identificationSection: 'கவனிப்பை அடையாளம் காண முடிந்தால் (விருப்பமானது)',
             commonName: 'பொதுப் பெயர்',
             scientificName: 'அறிவியல் பெயர்',
             commonNamePlaceholder: 'பொதுப் பெயரை உள்ளிடவும்',
@@ -225,13 +240,6 @@ const PlantDataCollection = () => {
     const aquaticPlantTypes = [
         { id: 'floating', label: t.floating, image: require('../../assets/image/Lotus.jpg') },
         { id: 'submerged', label: t.submerged, image: require('../../assets/image/Aquatic.jpeg') },
-    ];
-
-    const timeOptions = [
-        { value: 'Morning', label: t.morning },
-        { value: 'Noon', label: t.noon },
-        { value: 'Evening', label: t.evening },
-        { value: 'Night', label: t.night }
     ];
 
     // Convert image to base64
@@ -360,14 +368,9 @@ const PlantDataCollection = () => {
     const currentPlantTypes = activeTab === 'Terrestrial' ? terrestrialPlantTypes : aquaticPlantTypes;
     const sectionTitle = activeTab === 'Terrestrial' ? t.terrestrialPlants : t.aquaticPlants;
 
-    // Get display label for current time of day
-    const getCurrentTimeLabel = () => {
-        const timeOption = timeOptions.find(opt => opt.value === timeOfDay);
-        return timeOption ? timeOption.label : timeOfDay;
-    };
-
     return (
         <SafeAreaView style={styles.safeArea}>
+            
             <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 {/* Header */}
                 <View style={styles.header}>
@@ -408,6 +411,7 @@ const PlantDataCollection = () => {
                 </View>
 
                 {/* Form Content */}
+                <View style={styles.frameContainer}>
                 <View style={styles.formContainer}>
                     {/* Plant Type Section */}
                     <View style={styles.inputGroup}>
@@ -505,17 +509,66 @@ const PlantDataCollection = () => {
                         )}
                     </View>
 
-                    {/* Time of Day Dropdown */}
+                    {/* Time of Day - Custom Radio Buttons */}
                     <View style={styles.inputGroup}>
                         <Text style={styles.label}>{t.timeOfDay}</Text>
-                        <TouchableOpacity 
-                            style={styles.dropdown}
-                            onPress={() => setShowTimePicker(true)}
-                            disabled={isSubmitting}
-                        >
-                            <Text style={styles.dropdownText}>{getCurrentTimeLabel()}</Text>
-                            <Icon name="arrow-drop-down" size={24} color="#666" />
-                        </TouchableOpacity>
+                        <View style={styles.radioContainer}>
+                            <View style={styles.radioRow}>
+                                <TouchableOpacity
+                                    style={styles.radioItem}
+                                    onPress={() => setTimeOfDay('Morning')}
+                                    disabled={isSubmitting}
+                                >
+                                    <CustomRadioButton
+                                        selected={timeOfDay === 'Morning'}
+                                        onPress={() => setTimeOfDay('Morning')}
+                                        disabled={isSubmitting}
+                                    />
+                                    <Text style={styles.radioLabel}>{t.morning}</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={styles.radioItem}
+                                    onPress={() => setTimeOfDay('Noon')}
+                                    disabled={isSubmitting}
+                                >
+                                    <CustomRadioButton
+                                        selected={timeOfDay === 'Noon'}
+                                        onPress={() => setTimeOfDay('Noon')}
+                                        disabled={isSubmitting}
+                                    />
+                                    <Text style={styles.radioLabel}>{t.noon}</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            <View style={styles.radioRow}>
+                                <TouchableOpacity
+                                    style={styles.radioItem}
+                                    onPress={() => setTimeOfDay('Evening')}
+                                    disabled={isSubmitting}
+                                >
+                                    <CustomRadioButton
+                                        selected={timeOfDay === 'Evening'}
+                                        onPress={() => setTimeOfDay('Evening')}
+                                        disabled={isSubmitting}
+                                    />
+                                    <Text style={styles.radioLabel}>{t.evening}</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={styles.radioItem}
+                                    onPress={() => setTimeOfDay('Night')}
+                                    disabled={isSubmitting}
+                                >
+                                    <CustomRadioButton
+                                        selected={timeOfDay === 'Night'}
+                                        onPress={() => setTimeOfDay('Night')}
+                                        disabled={isSubmitting}
+                                    />
+                                    <Text style={styles.radioLabel}>{t.night}</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
                     </View>
 
                     {/* Description */}
@@ -574,7 +627,7 @@ const PlantDataCollection = () => {
                         {isSubmitting ? (
                             <View style={styles.submitButtonContent}>
                                 <ActivityIndicator color="#FFFFFF" size="small" />
-                                <Text style={[styles.submitButtonText, { marginLeft: 10 }]}>
+                                <Text style={[styles.submitButtonText, { marginLeft: 10, flex: 1 }]}>
                                     {t.submitting}
                                 </Text>
                             </View>
@@ -582,6 +635,7 @@ const PlantDataCollection = () => {
                             <Text style={styles.submitButtonText}>{t.submit}</Text>
                         )}
                     </TouchableOpacity>
+                </View>
                 </View>
             </ScrollView>
 
@@ -622,54 +676,6 @@ const PlantDataCollection = () => {
                         >
                             <Text style={styles.imagePickerCancelText}>{t.cancel}</Text>
                         </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
-
-            {/* Time Picker Modal */}
-            <Modal
-                visible={showTimePicker}
-                transparent={true}
-                animationType="slide"
-                onRequestClose={() => setShowTimePicker(false)}
-            >
-                <View style={styles.modalOverlay}>
-                    <View style={styles.modalContainer}>
-                        <View style={styles.modalHeader}>
-                            <Text style={styles.modalTitle}>{t.selectTimeOfDay}</Text>
-                            <TouchableOpacity 
-                                onPress={() => setShowTimePicker(false)}
-                                style={styles.modalCloseButton}
-                            >
-                                <Icon name="close" size={24} color="#666" />
-                            </TouchableOpacity>
-                        </View>
-
-                        <ScrollView style={styles.modalContent}>
-                            {timeOptions.map((time) => (
-                                <TouchableOpacity
-                                    key={time.value}
-                                    style={[
-                                        styles.timeOption,
-                                        timeOfDay === time.value && styles.timeOptionSelected
-                                    ]}
-                                    onPress={() => {
-                                        setTimeOfDay(time.value);
-                                        setShowTimePicker(false);
-                                    }}
-                                >
-                                    <Text style={[
-                                        styles.timeOptionText,
-                                        timeOfDay === time.value && styles.timeOptionTextSelected
-                                    ]}>
-                                        {time.label}
-                                    </Text>
-                                    {timeOfDay === time.value && (
-                                        <Icon name="check" size={24} color="#4A7856" />
-                                    )}
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
                     </View>
                 </View>
             </Modal>
@@ -887,6 +893,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         borderRadius: 8,
+        
     },
     removePhotoButton: {
         position: 'absolute',
@@ -924,6 +931,48 @@ const styles = StyleSheet.create({
     dateText: {
         fontSize: 16,
         color: '#333',
+        fontFamily: 'Times New Roman',
+    },
+    // Custom Radio Button Styles
+    customRadio: {
+        marginRight: 8,
+    },
+    customRadioOuter: {
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+        borderWidth: 2,
+        borderColor: '#CCC',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#FFFFFF',
+    },
+    customRadioOuterSelected: {
+        borderColor: '#4A7856',
+    },
+    customRadioInner: {
+        width: 12,
+        height: 12,
+        borderRadius: 6,
+        backgroundColor: '#4A7856',
+    },
+    radioContainer: {
+        marginTop: 5,
+    },
+    radioRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 5,
+    },
+    radioItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1,
+    },
+    radioLabel: {
+        fontSize: 16,
+        color: '#333',
+        marginLeft: 5,
         fontFamily: 'Times New Roman',
     },
     dropdown: {
@@ -978,12 +1027,14 @@ const styles = StyleSheet.create({
     submitButtonContent: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
     },
     submitButtonText: {
         fontSize: 20,
         color: '#FFFFFF',
         fontWeight: 'bold',
         fontFamily: 'Times New Roman',
+        textAlign: 'center',
     },
     // Image Picker Modal Styles
     imagePickerOverlay: {
@@ -1112,6 +1163,26 @@ const styles = StyleSheet.create({
         color: '#4A7856',
         fontWeight: 'bold',
     },
+    frameContainer: {
+    marginHorizontal: 15,
+    marginBottom: 25,
+    borderWidth: 2,
+    borderColor: '#4A7856',
+    borderRadius: 18,
+    backgroundColor: '#FFFFFF',
+    paddingTop: 10,
+    ...Platform.select({
+        ios: {
+            shadowColor: 'black',
+            shadowOffset: { width: 0, height: 3 },
+            shadowOpacity: 0.15,
+            shadowRadius: 6,
+        },
+        android: {
+            elevation: 6,
+        },
+    }),
+},
 });
 
 export default PlantDataCollection;

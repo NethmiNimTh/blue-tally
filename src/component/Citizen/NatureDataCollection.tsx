@@ -95,17 +95,17 @@ const NatureDataCollection = () => {
             night: 'Night'
         },
         si: {
-            title: 'ස්වභාවධර්මය',
-            category: 'කාණ්ඩය',
-            selectCategory: 'කාණ්ඩය තෝරන්න',
+            title: 'පරිසරය',
+            category: 'පරිසර කාණ්ඩය',
+            selectCategory: 'පරිසර කාණ්ඩය තෝරන්න',
             photo: 'ඡායාරූපය',
             date: 'දිනය',
             timeOfDay: 'දවසේ වේලාව',
             description: 'විස්තරය (අත්‍යවශ්‍ය නොවේ)',
-            submit: 'ඉදිරිපත් කරන්න',
-            submitting: 'ඉදිරිපත් කරමින්...',
+            submit: 'දත්ත ඇතුලත් කිරීම තහවුරු කරන්න',
+            submitting: 'දත්ත ඇතුලත් කිරීම තහවුරු කරමින්...',
             photoPlaceholder: 'ඡායාරූපය ගැනීම/ ඇතුලත් කිරීම මෙහිදී සිදු කරන්න',
-            chooseOption: 'විකල්පයක් තෝරන්න',
+            chooseOption: ' තෝරන්න',
             camera: 'කැමරාව',
             gallery: 'ගැලරිය',
             cancel: 'අවලංගු කරන්න',
@@ -124,7 +124,7 @@ const NatureDataCollection = () => {
             other: 'වෙනත් අවස්ථා',
             // Time options
             morning: 'උදෑසන',
-            noon: 'මධ්‍යාහනය',
+            noon: 'මධ්‍යහනය',
             evening: 'සවස',
             night: 'රාත්‍රිය'
         },
@@ -349,6 +349,7 @@ const NatureDataCollection = () => {
                 </View>
 
                 {/* Form Content */}
+                <View style={styles.frameContainer}>
                 <View style={styles.formContainer}>
                     {/* Category Dropdown */}
                     <View style={styles.inputGroup}>
@@ -514,7 +515,7 @@ const NatureDataCollection = () => {
                         {isSubmitting ? (
                             <View style={styles.submitButtonContent}>
                                 <ActivityIndicator color="#FFFFFF" size="small" />
-                                <Text style={[styles.submitButtonText, { marginLeft: 10 }]}>
+                                <Text style={[styles.submitButtonText, { marginLeft: 10, flex: 1 }]}>
                                     {lang.submitting}
                                 </Text>
                             </View>
@@ -522,6 +523,7 @@ const NatureDataCollection = () => {
                             <Text style={styles.submitButtonText}>{lang.submit}</Text>
                         )}
                     </TouchableOpacity>
+                </View>
                 </View>
             </ScrollView>
 
@@ -841,12 +843,14 @@ const styles = StyleSheet.create({
     submitButtonContent: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
     },
     submitButtonText: {
         fontSize: 20,
         color: '#FFFFFF',
         fontWeight: 'bold',
         fontFamily: 'Times New Roman',
+        textAlign: 'center',
     },
     // Modal Styles
     modalOverlay: {
@@ -982,6 +986,27 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontFamily: 'Times New Roman',
     },
+    frameContainer: {
+    marginHorizontal: 15,
+    marginBottom: 25,
+    borderWidth: 2,
+    borderColor: '#4A7856',
+    borderRadius: 18,
+    backgroundColor: '#FFFFFF',
+    paddingTop: 10,
+    ...Platform.select({
+        ios: {
+            shadowColor: 'black',
+            shadowOffset: { width: 0, height: 3 },
+            shadowOpacity: 0.15,
+            shadowRadius: 6,
+        },
+        android: {
+            elevation: 6,
+        },
+    }),
+},
+
 });
 
 export default NatureDataCollection;

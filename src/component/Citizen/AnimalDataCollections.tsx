@@ -97,14 +97,14 @@ const AnimalDataCollection = () => {
             dragonfly: 'Dragonfly',
             spider: 'Spider',
             otherInsect: 'Other Insect',
-            crustacean: 'Crustacean',
+            crustacean: 'Crustacean  (Example - Crab)',
             // Time options
             morning: 'Morning',
             noon: 'Noon',
             evening: 'Evening',
             night: 'Night',
             // Identification fields
-            identificationSection: 'If you can identify the observation',
+            identificationSection: 'If you can identify the observation (Optional)',
             commonName: 'Common Name',
             scientificName: 'Scientific Name',
             commonNamePlaceholder: 'Enter common name',
@@ -112,16 +112,16 @@ const AnimalDataCollection = () => {
         },
         si: {
             title: 'සතුන්',
-            animalType: 'සත්ව වර්ගය',
-            selectAnimalType: 'සත්ව වර්ගය තෝරන්න',
+            animalType: 'සත්ව කාණ්ඩය',
+            selectAnimalType: 'සත්ව කාණ්ඩය තෝරන්න',
             photo: 'ඡායාරූපය',
             date: 'දිනය',
             timeOfDay: 'දවසේ වේලාව',
             description: 'විස්තරය (අත්‍යවශ්‍ය නොවේ)',
-            submit: 'ඉදිරිපත් කරන්න',
-            submitting: 'ඉදිරිපත් කරමින්...',
+            submit: 'දත්ත ඇතුලත් කිරීම තහවුරු කරන්න',
+            submitting: 'දත්ත ඇතුලත් කිරීම තහවුරු කරමින්...',
             photoPlaceholder: 'ඡායාරූපය ගැනීම/ ඇතුලත් කිරීම මෙහිදී සිදු කරන්න',
-            chooseOption: 'විකල්පයක් තෝරන්න',
+            chooseOption: 'තෝරන්න',
             camera: 'කැමරාව',
             gallery: 'ගැලරිය',
             cancel: 'අවලංගු කරන්න',
@@ -147,11 +147,11 @@ const AnimalDataCollection = () => {
             otherInsect: 'අනෙකුත් කෘමීන්',
             crustacean: 'ක්‍රස්ටේසියාවන්  (උදාහරණ - කකුළුවන්)',
             morning: 'උදෑසන',
-            noon: 'මධ්‍යාහනය',
+            noon: 'මධ්‍යහනය',
             evening: 'සවස',
             night: 'රාත්‍රිය',
             // Identification fields
-            identificationSection: 'නිරීක්ෂණය හඳුනාගන්නේ නම්',
+            identificationSection: 'නිරීක්ෂණය හඳුනාගත්තේ නම් (අත්‍යවශ්‍ය නොවේ) ',
             commonName: 'පොදු නාමය',
             scientificName: 'විදාත්මක නාමය',
             commonNamePlaceholder: 'පොදු නාමය ඇතුළත් කරන්න',
@@ -180,7 +180,7 @@ const AnimalDataCollection = () => {
             success: 'வெற்றி',
             submissionSuccess: 'விலங்கு கவனிப்பு வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது!',
             submissionFailed: 'சமர்ப்பித்தல் தோல்வியடைந்தது',
-            tryAgain: 'கவனிப்பை சமர்ப்பிக்க தோல்வி. மீண்டும் முயற்சிக்கவும்.',
+            tryAgain: 'கவனிப்பை சமர்ப்பிக்க தோல்வி. மீண்டும் முயற்சிக்கவும். ',
             // Animal types
             mammal: 'பாலூட்டிகள்',
             bird: 'பறவைகள்',
@@ -198,7 +198,7 @@ const AnimalDataCollection = () => {
             evening: 'மாலை',
             night: 'இரவு',
             // Identification fields
-            identificationSection: 'கவனிப்பை அடையாளம் காண முடிந்தால்',
+            identificationSection: 'கவனிப்பை அடையாளம் காண முடிந்தால் (விருப்பமானது)',
             commonName: 'பொதுப் பெயர்',
             scientificName: 'அறிவியல் பெயர்',
             commonNamePlaceholder: 'பொதுப் பெயரை உள்ளிடவும்',
@@ -396,6 +396,7 @@ const AnimalDataCollection = () => {
                 </View>
 
                 {/* Form Content */}
+                <View style={styles.frameContainer}>
                 <View style={styles.formContainer}>
                     {/* Animal Type Dropdown */}
                     <View style={styles.inputGroup}>
@@ -588,7 +589,7 @@ const AnimalDataCollection = () => {
                         {isSubmitting ? (
                             <View style={styles.submitButtonContent}>
                                 <ActivityIndicator color="#FFFFFF" size="small" />
-                                <Text style={[styles.submitButtonText, { marginLeft: 10 }]}>
+                                <Text style={[styles.submitButtonText, { marginLeft: 10, flex: 1 }]}>
                                     {lang.submitting}
                                 </Text>
                             </View>
@@ -596,6 +597,7 @@ const AnimalDataCollection = () => {
                             <Text style={styles.submitButtonText}>{lang.submit}</Text>
                         )}
                     </TouchableOpacity>
+                     </View>
                 </View>
             </ScrollView>
 
@@ -638,9 +640,12 @@ const AnimalDataCollection = () => {
                                     </TouchableOpacity>
                                 ))}
                             </View>
+                            
                         </ScrollView>
+                        
                     </View>
                 </View>
+                
             </Modal>
 
             {/* Image Picker Modal */}
@@ -930,12 +935,14 @@ const styles = StyleSheet.create({
     submitButtonContent: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
     },
     submitButtonText: {
         fontSize: 20,
         color: '#FFFFFF',
         fontWeight: 'bold',
         fontFamily: 'Times New Roman',
+        textAlign: 'center',
     },
     // Modal Styles
     modalOverlay: {
@@ -1091,6 +1098,26 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontFamily: 'Times New Roman',
     },
+    frameContainer: {
+    marginHorizontal: 15,
+    marginBottom: 25,
+    borderWidth: 2,
+    borderColor: '#4A7856',
+    borderRadius: 18,
+    backgroundColor: '#FFFFFF',
+    paddingTop: 10,
+    ...Platform.select({
+        ios: {
+            shadowColor: 'black',
+            shadowOffset: { width: 0, height: 3 },
+            shadowOpacity: 0.15,
+            shadowRadius: 6,
+        },
+        android: {
+            elevation: 6,
+        },
+    }),
+},
 });
 
 export default AnimalDataCollection;

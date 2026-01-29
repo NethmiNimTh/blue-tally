@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, SafeAreaView, Alert, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, SafeAreaView, Alert, ActivityIndicator, Platform } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { plantApi } from '../../api/plantapi';
 import { natureApi } from '../../api/natureApi';
 import { animalApi } from '../../api/animalApi';
 
-// component
 const PhotoInformation = () => {
     const navigation = useNavigation();
     const route = useRoute();
@@ -18,7 +17,6 @@ const PhotoInformation = () => {
     const [canUsePhoto, setCanUsePhoto] = useState('Yes');
     const [photoCredit, setPhotoCredit] = useState('');
 
-    // Translation object
     const translations = {
         en: {
             headerTitle: 'Photo Information',
@@ -45,7 +43,7 @@ const PhotoInformation = () => {
             contactLabel: 'දුරකථන අංකය / විද්‍යුත් තැපැල් ලිපිනය',
             contactPlaceholder: 'ඔබව සම්බන්ධ කර ගත හැකි විස්තර',
             helperText: 'මෙම තොරතුරු පරිපාලක සමග හුවමාරු වීම සිදුවේ.',
-            permissionQuestion: 'ඔබගේ ඡායාරූපය අප හට භාවිතා කිරීමට අවසර ලබා දෙන්නේ ද ? ',
+            permissionQuestion: 'ඔබගේ ඡායාරූපය අප හට භාවිතා කිරීමට අවසර ලබා දෙන්නේ ද ?',
             yes: 'ඔව්',
             no: 'නැත',
             photoCreditLabel: 'ඡායාරූපයේ හිමිකාරීත්වය:',
@@ -76,7 +74,6 @@ const PhotoInformation = () => {
         }
     };
 
-    // Load saved language preference
     useEffect(() => {
         loadLanguage();
     }, []);
@@ -84,20 +81,16 @@ const PhotoInformation = () => {
     const loadLanguage = async () => {
         try {
             const savedLanguage = await AsyncStorage.getItem('userLanguage');
-            if (savedLanguage) {
-                setCurrentLanguage(savedLanguage);
-            }
+            if (savedLanguage) setCurrentLanguage(savedLanguage);
         } catch (error) {
             console.error('Error loading language:', error);
         }
     };
 
-    // Get current translations
     const t = translations[currentLanguage] || translations.en;
 
     const handleSubmit = async () => {
         setIsSubmitting(true);
-
         try {
             const photoInfo = {
                 contactInfo: contactInfo.trim() || undefined,
@@ -105,14 +98,9 @@ const PhotoInformation = () => {
                 photoCredit: photoCredit.trim() || undefined
             };
 
-            console.log('Submitting photo information:', photoInfo);
-            console.log('Observation type:', observationType);
-
-            // Get the observation ID
             const observationId = observationData?._id || observationData?.id;
 
             if (observationId) {
-                // Call the appropriate API based on observation type
                 switch (observationType) {
                     case 'plant':
                         await plantApi.updatePlantPhotoInfo(observationId, photoInfo);
@@ -124,7 +112,6 @@ const PhotoInformation = () => {
                         await animalApi.updateAnimalPhotoInfo(observationId, photoInfo);
                         break;
                     case 'humanActivity':
-                        // Human activity doesn't have a backend yet, just log
                         console.log('Human activity photo info (no backend):', photoInfo);
                         break;
                     default:
@@ -139,7 +126,6 @@ const PhotoInformation = () => {
                     {
                         text: 'OK',
                         onPress: () => {
-                            // Navigate to CitizenDashboard
                             navigation.reset({
                                 index: 0,
                                 routes: [{ name: 'CitizenDashboard' }],
@@ -161,7 +147,6 @@ const PhotoInformation = () => {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            {/* Header */}
             <View style={styles.header}>
                 <Text style={styles.headerTitle}>{t.headerTitle}</Text>
             </View>
@@ -171,97 +156,83 @@ const PhotoInformation = () => {
                 contentContainerStyle={styles.scrollContent}
                 showsVerticalScrollIndicator={false}
             >
-                <View style={styles.formContainer}>
-                    <Text style={styles.sectionTitle}>{t.sectionTitle}</Text>
+                <View style={styles.frameContainer}>
+                    <View style={styles.formContainer}>
+                        <Text style={styles.sectionTitle}>{t.sectionTitle}</Text>
 
-                    <Text style={styles.infoText}>
-                        {t.infoText}
-                    </Text>
+                        <Text style={styles.infoText}>{t.infoText}</Text>
 
-                    {/* Contact Information Input */}
-                    <View style={styles.inputGroup}>
-                        <Text style={styles.label}>{t.contactLabel}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder={t.contactPlaceholder}
-                            placeholderTextColor="#AAA"
-                            value={contactInfo}
-                            onChangeText={setContactInfo}
-                        />
-                        <Text style={styles.helperText}>
-                            {t.helperText}
-                        </Text>
-                    </View>
-
-                    {/* Photo Credit Input */}
-                    <View style={styles.inputGroup}>
-                        <Text style={styles.label}>{t.photoCreditLabel}</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            placeholder={t.photoCreditPlaceholder}
-                            placeholderTextColor="#AAA"
-                            value={photoCredit}
-                            onChangeText={setPhotoCredit}
-                        />
-                    </View>
-
-                    {/* Permission Section */}
-                    <View style={styles.inputGroup}>
-                        <Text style={styles.questionText}>
-                            {t.permissionQuestion}
-                        </Text>
-
-                        <View style={styles.radioGroup}>
-                            <TouchableOpacity
-                                style={styles.radioOption}
-                                onPress={() => setCanUsePhoto('Yes')}
-                                activeOpacity={0.7}
-                            >
-                                <View style={styles.radioButton}>
-                                    {canUsePhoto === 'Yes' && <View style={styles.radioButtonSelected} />}
-                                </View>
-                                <Text style={styles.radioLabel}>{t.yes}</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                style={styles.radioOption}
-                                onPress={() => setCanUsePhoto('No')}
-                                activeOpacity={0.7}
-                            >
-                                <View style={styles.radioButton}>
-                                    {canUsePhoto === 'No' && <View style={styles.radioButtonSelected} />}
-                                </View>
-                                <Text style={styles.radioLabel}>{t.no}</Text>
-                            </TouchableOpacity>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>{t.contactLabel}</Text>
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder={t.contactPlaceholder}
+                                placeholderTextColor="#AAA"
+                                value={contactInfo}
+                                onChangeText={setContactInfo}
+                            />
+                            <Text style={styles.helperText}>{t.helperText}</Text>
                         </View>
-                    </View>
 
-                    {/* Submit Button */}
-                    <TouchableOpacity
-                        style={[styles.submitButton, isSubmitting && styles.submitButtonDisabled]}
-                        onPress={handleSubmit}
-                        activeOpacity={0.8}
-                        disabled={isSubmitting}
-                    >
-                        {isSubmitting ? (
-                            <ActivityIndicator color="#FFFFFF" />
-                        ) : (
-                            <Text style={styles.submitButtonText}>{t.submit}</Text>
-                        )}
-                    </TouchableOpacity>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>{t.photoCreditLabel}</Text>
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder={t.photoCreditPlaceholder}
+                                placeholderTextColor="#AAA"
+                                value={photoCredit}
+                                onChangeText={setPhotoCredit}
+                            />
+                        </View>
+
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.questionText}>{t.permissionQuestion}</Text>
+                            <View style={styles.radioGroup}>
+                                <TouchableOpacity
+                                    style={styles.radioOption}
+                                    onPress={() => setCanUsePhoto('Yes')}
+                                    activeOpacity={0.7}
+                                >
+                                    <View style={styles.radioButton}>
+                                        {canUsePhoto === 'Yes' && <View style={styles.radioButtonSelected} />}
+                                    </View>
+                                    <Text style={styles.radioLabel}>{t.yes}</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={styles.radioOption}
+                                    onPress={() => setCanUsePhoto('No')}
+                                    activeOpacity={0.7}
+                                >
+                                    <View style={styles.radioButton}>
+                                        {canUsePhoto === 'No' && <View style={styles.radioButtonSelected} />}
+                                    </View>
+                                    <Text style={styles.radioLabel}>{t.no}</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+
+                        <TouchableOpacity
+                            style={[styles.submitButton, isSubmitting && styles.submitButtonDisabled]}
+                            onPress={handleSubmit}
+                            activeOpacity={0.8}
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? (
+                                <ActivityIndicator color="#FFFFFF" />
+                            ) : (
+                                <Text style={styles.submitButtonText}>{t.submit}</Text>
+                            )}
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
     );
 }
 
-// styles
 const styles = StyleSheet.create({
     safeArea: {
-        flex: 1,
-        backgroundColor: '#FFFFFF',
-    },
-    mainContainer: {
         flex: 1,
         backgroundColor: '#FFFFFF',
     },
@@ -271,27 +242,45 @@ const styles = StyleSheet.create({
     },
     scrollContent: {
         flexGrow: 1,
+        paddingVertical: 15,
     },
-    buttonContainer: {
-        paddingHorizontal: 20,
-        paddingVertical: 20,
+    frameContainer: {
+        marginHorizontal: 15,
+        marginVertical: 15,
+        borderWidth: 2,
+        borderColor: '#4A7856',
+        borderRadius: 18,
         backgroundColor: '#FFFFFF',
+        paddingTop: 20,
+        paddingBottom: 20,
+        ...Platform.select({
+            ios: {
+                shadowColor: 'black',
+                shadowOffset: { width: 0, height: 3 },
+                shadowOpacity: 0.15,
+                shadowRadius: 6,
+            },
+            android: {
+                elevation: 7,
+            },
+        }),
     },
     header: {
         alignItems: 'center',
         paddingVertical: 15,
         paddingHorizontal: 20,
-        backgroundColor: '#4A7856',
+        
     },
     headerTitle: {
         fontSize: 24,
         fontFamily: 'Times New Roman',
-        color: '#FFFFFF',
+        color: '#4A7856',
         fontWeight: 'bold',
+        marginTop: 9,
     },
     formContainer: {
         paddingHorizontal: 20,
-        paddingTop: 30,
+        paddingTop: 10,
         backgroundColor: '#FFFFFF',
     },
     sectionTitle: {
@@ -305,14 +294,11 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#666',
         lineHeight: 20,
-        marginBottom: 50,
+        marginBottom: 30,
         fontFamily: 'Times New Roman',
     },
     inputGroup: {
         marginBottom: 20,
-    },
-    inputGroupLast: {
-        marginBottom: 5,
     },
     label: {
         fontSize: 14,
@@ -336,20 +322,19 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: '#999',
         marginTop: 6,
-        marginBottom: 30,
+        marginBottom: 20,
         fontFamily: 'Times New Roman',
     },
     questionText: {
         fontSize: 15,
         color: '#666',
-        marginBottom: 30,
+        marginBottom: 15,
         fontWeight: '500',
         fontFamily: 'Times New Roman',
     },
     radioGroup: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 40,
+        justifyContent: 'space-around',
     },
     radioOption: {
         flexDirection: 'row',
@@ -364,7 +349,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 8,
-        marginBottom: 50,
     },
     radioButtonSelected: {
         width: 12,
@@ -390,6 +374,8 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontWeight: 'bold',
         fontFamily: 'Times New Roman',
+        textAlign: 'center'
+        
     },
     submitButtonDisabled: {
         backgroundColor: '#8AAB91',
