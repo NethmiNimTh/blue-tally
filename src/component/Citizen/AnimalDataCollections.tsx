@@ -112,8 +112,8 @@ const AnimalDataCollection = () => {
         },
         si: {
             title: 'සතුන්',
-            animalType: 'සත්ව කාණ්ඩය',
-            selectAnimalType: 'සත්ව කාණ්ඩය තෝරන්න',
+            animalType: 'සත්ත්ව කාණ්ඩය',
+            selectAnimalType: 'සත්ත්ව කාණ්ඩය තෝරන්න',
             photo: 'ඡායාරූපය',
             date: 'දිනය',
             timeOfDay: 'දවසේ වේලාව',
@@ -131,7 +131,7 @@ const AnimalDataCollection = () => {
             selectTimeOfDay: 'කරුණාකර දවසේ වේලාව තෝරන්න',
             descriptionPlaceholder: 'ඔබේ නිරීක්ෂණය ගැන අමතර සටහන් එක් කරන්න...',
             success: 'සාර්ථකයි',
-            submissionSuccess: 'සත්ව නිරීක්ෂණය සාර්ථකව ඉදිරිපත් කරන ලදී!',
+            submissionSuccess: 'සත්ත්ව නිරීක්ෂණය සාර්ථකව ඉදිරිපත් කරන ලදී!',
             submissionFailed: 'ඉදිරිපත් කිරීම අසාර්ථක විය',
             tryAgain: 'නිරීක්ෂණය ඉදිරිපත් කිරීමට අසමත් විය. කරුණාකර නැවත උත්සාහ කරන්න.',
             // Animal types
@@ -153,9 +153,9 @@ const AnimalDataCollection = () => {
             // Identification fields
             identificationSection: 'නිරීක්ෂණය හඳුනාගත්තේ නම් (අත්‍යවශ්‍ය නොවේ) ',
             commonName: 'පොදු නාමය',
-            scientificName: 'විදාත්මක නාමය',
+            scientificName: 'විද්‍යාත්මක  නාමය',
             commonNamePlaceholder: 'පොදු නාමය ඇතුළත් කරන්න',
-            scientificNamePlaceholder: 'විදාත්මක නාමය ඇතුළත් කරන්න'
+            scientificNamePlaceholder: 'විද්‍යාත්මක  නාමය ඇතුළත් කරන්න'
         },
         ta: {
             title: 'விலங்குகள்',

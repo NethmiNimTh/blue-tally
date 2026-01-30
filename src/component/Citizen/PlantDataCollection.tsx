@@ -154,9 +154,9 @@ const PlantDataCollection = () => {
             // Identification fields
             identificationSection: 'නිරීක්ෂණය හඳුනාගත්තේ නම් (අත්‍යවශ්‍ය නොවේ)',
             commonName: 'පොදු නාමය',
-            scientificName: 'විදාත්මක නාමය',
+            scientificName: 'විද්‍යාත්මක  නාමය',
             commonNamePlaceholder: 'පොදු නාමය ඇතුළත් කරන්න',
-            scientificNamePlaceholder: 'විදාත්මක නාමය ඇතුළත් කරන්න'
+            scientificNamePlaceholder: 'විද්‍යාත්මක  නාමය ඇතුළත් කරන්න'
         },
         ta: {
             title: 'தாவரம்',
@@ -416,7 +416,10 @@ const PlantDataCollection = () => {
                     {/* Plant Type Section */}
                     <View style={styles.inputGroup}>
                         <Text style={styles.sectionTitle}>{sectionTitle}</Text>
-                        <Text style={styles.label}>{t.plantType}</Text>
+                       {activeTab === 'Terrestrial' && (
+    <Text style={styles.label}>{t.plantType}</Text>
+)}
+
 
                         {activeTab === 'Aquatic' && (
                             <Text style={styles.examplesText}>{t.aquaticExamples}</Text>

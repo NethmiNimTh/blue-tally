@@ -96,8 +96,8 @@ const NatureDataCollection = () => {
         },
         si: {
             title: 'පරිසරය',
-            category: 'පරිසර කාණ්ඩය',
-            selectCategory: 'පරිසර කාණ්ඩය තෝරන්න',
+            category: ' කාණ්ඩය',
+            selectCategory: ' කාණ්ඩය තෝරන්න',
             photo: 'ඡායාරූපය',
             date: 'දිනය',
             timeOfDay: 'දවසේ වේලාව',
