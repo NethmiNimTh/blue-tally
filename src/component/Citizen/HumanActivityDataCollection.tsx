@@ -91,7 +91,7 @@ const HumanActivityDataCollection = () => {
             // Activities
             fire: 'ගිනි ගැනීම්',
             deforestation: 'වන හායනය',
-            mining: 'කැණීම කටයුතු',
+            mining: 'කැණීම් කටයුතු',
             wasteDisposal: 'අපද්‍රව්‍ය බැහැර කිරීම',
             construction: 'ඉදිකිරීම් කටයුතු',
             domesticAnimals: 'ගෘහාශ්‍රිත සතුන්',
