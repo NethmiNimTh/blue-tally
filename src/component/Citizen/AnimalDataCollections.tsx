@@ -47,6 +47,10 @@ const AnimalDataCollection = () => {
     const [currentLanguage, setCurrentLanguage] = useState('en');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isAlertVisible, setIsAlertVisible] = useState(false);
+    const [isErrorAlertVisible, setIsErrorAlertVisible] = useState(false);
+    const [errorAlertType, setErrorAlertType] = useState<'error' | 'network'>('error');
+    const [errorAlertTitle, setErrorAlertTitle] = useState('');
+    const [errorAlertMessage, setErrorAlertMessage] = useState('');
     const [submittedData, setSubmittedData] = useState(null);
 
     const [animalType, setAnimalType] = useState('');
@@ -218,7 +222,7 @@ const AnimalDataCollection = () => {
                 setCurrentLanguage(savedLanguage);
             }
         } catch (error) {
-            console.error('Error loading language:', error);
+            // Error silently handled
         }
     };
 
@@ -253,7 +257,10 @@ const AnimalDataCollection = () => {
             const base64 = await RNFS.readFile(cleanUri, 'base64');
             return `data:image/jpeg;base64,${base64}`;
         } catch (error) {
-            console.error('Error converting image to base64:', error);
+            setErrorAlertType('error');
+            setErrorAlertTitle(lang.submissionFailed);
+            setErrorAlertMessage('Failed to process image. Please try again.');
+            setIsErrorAlertVisible(true);
             throw error;
         }
     };
@@ -278,9 +285,12 @@ const AnimalDataCollection = () => {
 
         launchCamera(options, (response) => {
             if (response.didCancel) {
-                console.log('User cancelled camera');
+                // User cancelled, no need to show error
             } else if (response.errorCode) {
-                Alert.alert('Error', 'Failed to open camera: ' + response.errorMessage);
+                setErrorAlertType('error');
+                setErrorAlertTitle(lang.submissionFailed);
+                setErrorAlertMessage('Failed to open camera. Please try again.');
+                setIsErrorAlertVisible(true);
             } else if (response.assets && response.assets[0]) {
                 setPhoto(response.assets[0].uri);
             }
@@ -298,9 +308,12 @@ const AnimalDataCollection = () => {
 
         launchImageLibrary(options, (response) => {
             if (response.didCancel) {
-                console.log('User cancelled gallery');
+                // User cancelled, no need to show error
             } else if (response.errorCode) {
-                Alert.alert('Error', 'Failed to open gallery: ' + response.errorMessage);
+                setErrorAlertType('error');
+                setErrorAlertTitle(lang.submissionFailed);
+                setErrorAlertMessage('Failed to open gallery. Please try again.');
+                setIsErrorAlertVisible(true);
             } else if (response.assets && response.assets[0]) {
                 setPhoto(response.assets[0].uri);
             }
@@ -321,17 +334,26 @@ const AnimalDataCollection = () => {
 
     const handleSubmit = async () => {
         if (!animalType) {
-            Alert.alert(lang.requiredField, lang.selectAnimalAlert);
+            setErrorAlertType('error');
+            setErrorAlertTitle(lang.requiredField);
+            setErrorAlertMessage(lang.selectAnimalAlert);
+            setIsErrorAlertVisible(true);
             return;
         }
 
         if (!photo) {
-            Alert.alert(lang.requiredField, lang.uploadPhoto);
+            setErrorAlertType('error');
+            setErrorAlertTitle(lang.requiredField);
+            setErrorAlertMessage(lang.uploadPhoto);
+            setIsErrorAlertVisible(true);
             return;
         }
 
         if (!timeOfDay) {
-            Alert.alert(lang.requiredField, lang.selectTimeOfDay);
+            setErrorAlertType('error');
+            setErrorAlertTitle(lang.requiredField);
+            setErrorAlertMessage(lang.selectTimeOfDay);
+            setIsErrorAlertVisible(true);
             return;
         }
 
@@ -358,8 +380,16 @@ const AnimalDataCollection = () => {
                 setIsAlertVisible(true);
             }
         } catch (error) {
-            console.error("Submit error:", error);
-            Alert.alert(lang.submissionFailed, lang.tryAgain);
+            // Determine if it's a network error
+            const isNetworkError = error.message && 
+                (error.message.includes('Network') || 
+                 error.message.includes('timeout') ||
+                 error.message.includes('fetch'));
+            
+            setErrorAlertType(isNetworkError ? 'network' : 'error');
+            setErrorAlertTitle(isNetworkError ? 'Network Issue' : lang.submissionFailed);
+            setErrorAlertMessage(error.message || lang.tryAgain);
+            setIsErrorAlertVisible(true);
         } finally {
             setIsSubmitting(false);
         }
@@ -700,6 +730,16 @@ const AnimalDataCollection = () => {
                         observationType: 'animal'
                     });
                 }}
+                language={currentLanguage as 'en' | 'si' | 'ta'}
+            />
+
+            {/* Error/Network Alert */}
+            <CustomAlert
+                visible={isErrorAlertVisible}
+                onClose={() => setIsErrorAlertVisible(false)}
+                type={errorAlertType}
+                title={errorAlertTitle}
+                message={errorAlertMessage}
                 language={currentLanguage as 'en' | 'si' | 'ta'}
             />
         </SafeAreaView>

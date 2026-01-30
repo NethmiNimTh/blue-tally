@@ -13,7 +13,7 @@ const EmailInput = () => {
       const response = await axios.post(`${API_URL}/send-email`, { email });//axios.post(`${API_URL}/register`, userData)
       Alert.alert('Success', response.data);
     } catch (error) {
-        console.error('API Error:', error.response ? error.response.data : error.message);
+        // Error silently handled - do not display console logs in production
         Alert.alert('Error', 'Failed to send email');
     }
   };

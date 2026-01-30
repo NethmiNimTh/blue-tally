@@ -155,7 +155,7 @@ const HumanActivityDataCollection = () => {
                 setCurrentLanguage(savedLanguage);
             }
         } catch (error) {
-            console.error('Error loading language:', error);
+            // Error silently handled
         }
     };
 
@@ -201,7 +201,7 @@ const HumanActivityDataCollection = () => {
 
         launchCamera(options, (response) => {
             if (response.didCancel) {
-                console.log('User cancelled camera');
+                // User cancelled, no need to show error
             } else if (response.errorCode) {
                 Alert.alert('Error', 'Failed to open camera: ' + response.errorMessage);
             } else if (response.assets && response.assets[0]) {
@@ -219,7 +219,7 @@ const HumanActivityDataCollection = () => {
 
         launchImageLibrary(options, (response) => {
             if (response.didCancel) {
-                console.log('User cancelled gallery');
+                // User cancelled, no need to show error
             } else if (response.errorCode) {
                 Alert.alert('Error', 'Failed to open gallery: ' + response.errorMessage);
             } else if (response.assets && response.assets[0]) {
@@ -264,7 +264,6 @@ const HumanActivityDataCollection = () => {
             timeOfDay,
             description
         };
-        console.log('Submit observation:', observationData);
         setSubmittedData(observationData);
         setIsAlertVisible(true);
     };

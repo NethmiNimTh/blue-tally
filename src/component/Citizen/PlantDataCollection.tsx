@@ -45,6 +45,10 @@ const PlantDataCollection = () => {
     const [currentLanguage, setCurrentLanguage] = useState('en');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isAlertVisible, setIsAlertVisible] = useState(false);
+    const [isErrorAlertVisible, setIsErrorAlertVisible] = useState(false);
+    const [errorAlertType, setErrorAlertType] = useState<'error' | 'network'>('error');
+    const [errorAlertTitle, setErrorAlertTitle] = useState('');
+    const [errorAlertMessage, setErrorAlertMessage] = useState('');
     const [submittedData, setSubmittedData] = useState(null);
 
     const [activeTab, setActiveTab] = useState('Terrestrial');
@@ -221,7 +225,7 @@ const PlantDataCollection = () => {
                 setCurrentLanguage(savedLanguage);
             }
         } catch (error) {
-            console.error('Error loading language:', error);
+            // Error silently handled
         }
     };
 
@@ -249,7 +253,10 @@ const PlantDataCollection = () => {
             const base64 = await RNFS.readFile(cleanUri, 'base64');
             return `data:image/jpeg;base64,${base64}`;
         } catch (error) {
-            console.error('Error converting image to base64:', error);
+            setErrorAlertType('error');
+            setErrorAlertTitle(t.submissionFailed);
+            setErrorAlertMessage('Failed to process image. Please try again.');
+            setIsErrorAlertVisible(true);
             throw error;
         }
     };
@@ -274,9 +281,12 @@ const PlantDataCollection = () => {
 
         launchCamera(options, (response) => {
             if (response.didCancel) {
-                console.log('User cancelled camera');
+                // User cancelled, no need to show error
             } else if (response.errorCode) {
-                Alert.alert('Error', 'Failed to open camera: ' + response.errorMessage);
+                setErrorAlertType('error');
+                setErrorAlertTitle(t.submissionFailed);
+                setErrorAlertMessage('Failed to open camera. Please try again.');
+                setIsErrorAlertVisible(true);
             } else if (response.assets && response.assets[0]) {
                 setPhoto(response.assets[0].uri);
             }
@@ -294,9 +304,12 @@ const PlantDataCollection = () => {
 
         launchImageLibrary(options, (response) => {
             if (response.didCancel) {
-                console.log('User cancelled gallery');
+                // User cancelled, no need to show error
             } else if (response.errorCode) {
-                Alert.alert('Error', 'Failed to open gallery: ' + response.errorMessage);
+                setErrorAlertType('error');
+                setErrorAlertTitle(t.submissionFailed);
+                setErrorAlertMessage('Failed to open gallery. Please try again.');
+                setIsErrorAlertVisible(true);
             } else if (response.assets && response.assets[0]) {
                 setPhoto(response.assets[0].uri);
             }
@@ -313,12 +326,18 @@ const PlantDataCollection = () => {
     const handleSubmit = async () => {
         // Validation
         if (!plantType) {
-            Alert.alert(t.requiredField, t.selectPlantType);
+            setErrorAlertType('error');
+            setErrorAlertTitle(t.requiredField);
+            setErrorAlertMessage(t.selectPlantType);
+            setIsErrorAlertVisible(true);
             return;
         }
 
         if (!photo) {
-            Alert.alert(t.requiredField, t.uploadPhoto);
+            setErrorAlertType('error');
+            setErrorAlertTitle(t.requiredField);
+            setErrorAlertMessage(t.uploadPhoto);
+            setIsErrorAlertVisible(true);
             return;
         }
 
@@ -326,7 +345,6 @@ const PlantDataCollection = () => {
 
         try {
             // Convert image to base64
-            console.log('Converting image to base64...');
             const base64Image = await convertImageToBase64(photo);
 
             // Prepare data for API
@@ -341,8 +359,6 @@ const PlantDataCollection = () => {
                 scientificName: scientificName.trim() || undefined,
             };
 
-            console.log('Submitting plant observation to backend...');
-
             // Send to backend
             const response = await plantApi.createPlant(plantData);
 
@@ -351,11 +367,16 @@ const PlantDataCollection = () => {
                 setIsAlertVisible(true);
             }
         } catch (error) {
-            console.error('Error submitting plant observation:', error);
-            Alert.alert(
-                t.submissionFailed,
-                error.message || t.tryAgain
-            );
+            // Determine if it's a network error
+            const isNetworkError = error.message && 
+                (error.message.includes('Network') || 
+                 error.message.includes('timeout') ||
+                 error.message.includes('fetch'));
+            
+            setErrorAlertType(isNetworkError ? 'network' : 'error');
+            setErrorAlertTitle(isNetworkError ? 'Network Issue' : t.submissionFailed);
+            setErrorAlertMessage(error.message || t.tryAgain);
+            setIsErrorAlertVisible(true);
         } finally {
             setIsSubmitting(false);
         }
@@ -694,6 +715,16 @@ const PlantDataCollection = () => {
                         observationType: 'plant'
                     });
                 }}
+                language={currentLanguage as 'en' | 'si' | 'ta'}
+            />
+
+            {/* Error/Network Alert */}
+            <CustomAlert
+                visible={isErrorAlertVisible}
+                onClose={() => setIsErrorAlertVisible(false)}
+                type={errorAlertType}
+                title={errorAlertTitle}
+                message={errorAlertMessage}
                 language={currentLanguage as 'en' | 'si' | 'ta'}
             />
         </SafeAreaView>
