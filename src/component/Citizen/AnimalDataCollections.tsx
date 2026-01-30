@@ -90,6 +90,8 @@ const AnimalDataCollection = () => {
             submissionSuccess: 'Animal observation submitted successfully!',
             submissionFailed: 'Submission Failed',
             tryAgain: 'Failed to submit observation. Please try again.',
+            networkIssue: 'Network Issue',
+            networkError: 'Unable to connect. Please check your internet connection and try again.',
             // Animal types
             mammal: 'Mammal',
             bird: 'Bird',
@@ -138,6 +140,8 @@ const AnimalDataCollection = () => {
             submissionSuccess: 'සත්ත්ව නිරීක්ෂණය සාර්ථකව ඉදිරිපත් කරන ලදී!',
             submissionFailed: 'ඉදිරිපත් කිරීම අසාර්ථක විය',
             tryAgain: 'නිරීක්ෂණය ඉදිරිපත් කිරීමට අසමත් විය. කරුණාකර නැවත උත්සාහ කරන්න.',
+            networkIssue: 'ජාල ගැටලුව',
+            networkError: 'සংযෝගය ස්ථාපිත කිරීමට නොහැකි විය. කරුණාකර ඔබේ අන්තර්ජාල සংযોගය පරීක්ෂා කරන්න සහ නැවත උත්සාහ කරන්න.',
             // Animal types
             mammal: 'ක්ෂීරපායින්',
             bird: 'කුරුල්ලන්',
@@ -185,6 +189,8 @@ const AnimalDataCollection = () => {
             submissionSuccess: 'விலங்கு கவனிப்பு வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது!',
             submissionFailed: 'சமர்ப்பித்தல் தோல்வியடைந்தது',
             tryAgain: 'கவனிப்பை சமர்ப்பிக்க தோல்வி. மீண்டும் முயற்சிக்கவும். ',
+            networkIssue: 'நெட்வொர்க் சிக்கல்',
+            networkError: 'இணைப்பை நிறுவ முடியவில்லை. தயவுசெய்து உங்கள் இணைய இணைப்பை சரிபார்க்கவும் மற்றும் மீண்டும் முயற்சிக்கவும்.',
             // Animal types
             mammal: 'பாலூட்டிகள்',
             bird: 'பறவைகள்',
@@ -387,8 +393,8 @@ const AnimalDataCollection = () => {
                  error.message.includes('fetch'));
             
             setErrorAlertType(isNetworkError ? 'network' : 'error');
-            setErrorAlertTitle(isNetworkError ? 'Network Issue' : lang.submissionFailed);
-            setErrorAlertMessage(error.message || lang.tryAgain);
+            setErrorAlertTitle(isNetworkError ? lang.networkIssue : lang.submissionFailed);
+            setErrorAlertMessage(isNetworkError ? lang.networkError : (error.message || lang.tryAgain));
             setIsErrorAlertVisible(true);
         } finally {
             setIsSubmitting(false);

@@ -3,12 +3,19 @@ import axiosInstance from './axios';
 export const natureApi = {
   createNature: async (natureData) => {
     try {
-      console.log('📤 Sending nature data to backend...');
-      console.log('Data size:', JSON.stringify(natureData).length, 'bytes');
+      console.log('📤 Nature Observation Submitted');
+      console.log('Nature Type:', natureData.natureType || 'Unknown');
+      console.log('Category:', natureData.category || 'Unknown');
+      console.log('Date:', natureData.date || 'N/A');
+      console.log('Time of Day:', natureData.timeOfDay || 'N/A');
+      console.log('Description:', natureData.description || 'N/A');
+      console.log('Common Name:', natureData.commonName || 'Not provided');
+      console.log('Scientific Name:', natureData.scientificName || 'Not provided');
+      console.log('Photo Size:', natureData.photo ? JSON.stringify(natureData.photo).length : 0, 'bytes');
       
       const response = await axiosInstance.post('/nature', natureData);
       
-      console.log('✅ Nature observation created successfully');
+      console.log('✅ Nature observation created successfully with ID:', response.data?._id || response.data?.id);
       return response.data;
     } catch (error) {
       console.error('❌ Nature API Error:', error.response?.data || error.message);
@@ -39,7 +46,11 @@ export const natureApi = {
 
   updateNaturePhotoInfo: async (natureId, photoInfo) => {
     try {
-      console.log('📤 Updating nature photo information...');
+      console.log('📤 Updating Nature Photo Information');
+      console.log('Nature ID:', natureId);
+      console.log('Photo Credit:', photoInfo.photoCredit || 'Not provided');
+      console.log('Contact Info:', photoInfo.contactInfo || 'Not provided');
+      console.log('Can Use Photo:', photoInfo.canUsePhoto);
       const response = await axiosInstance.patch(`/nature/${natureId}/photo-info`, photoInfo);
       console.log('✅ Nature photo information updated successfully');
       return response.data;

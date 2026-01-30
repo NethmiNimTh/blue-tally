@@ -88,6 +88,8 @@ const NatureDataCollection = () => {
             submissionSuccess: 'Nature observation submitted successfully!',
             submissionFailed: 'Submission Failed',
             tryAgain: 'Failed to submit observation. Please try again.',
+            networkIssue: 'Network Issue',
+            networkError: 'Unable to connect. Please check your internet connection and try again.',
             // Nature types
             naturalEvents: 'Natural events',
             aesthetics: 'Aesthetics',
@@ -115,13 +117,15 @@ const NatureDataCollection = () => {
             cancel: 'අවලංගු කරන්න',
             requiredField: 'අවශ්‍ය ක්ෂේත්‍රය',
             selectCategoryAlert: 'කරුණාකර කාණ්ඩයක් තෝරන්න',
-            uploadPhoto: 'කරුණාකර ඡායාරූපයක් උඩුගත කරන්න',
+            uploadPhoto: 'කරුණාකර ඡායාරූපයක් ඇතුලත්  කරන්න',
             selectTimeOfDay: 'කරුණාකර දවසේ වේලාව තෝරන්න',
             descriptionPlaceholder: 'ඔබේ නිරීක්ෂණය ගැන අමතර සටහන් එක් කරන්න...',
             success: 'සාර්ථකයි',
             submissionSuccess: 'ස්වභාවධර්ම නිරීක්ෂණය සාර්ථකව ඉදිරිපත් කරන ලදී!',
             submissionFailed: 'ඉදිරිපත් කිරීම අසාර්ථක විය',
             tryAgain: 'නිරීක්ෂණය ඉදිරිපත් කිරීමට අසමත් විය. කරුණාකර නැවත උත්සාහ කරන්න.',
+            networkIssue: 'ජාල ගැටලුව',
+            networkError: 'සංයෝගය ස්ථාපිත කිරීමට නොහැකි විය. කරුණාකර ඔබේ අන්තර්ජාල සංයෝගය පරීක්ෂා කරන්න සහ නැවත උත්සාහ කරන්න.',
             // Nature types
             naturalEvents: 'ස්වභාවික සංසිද්ධි',
             aesthetics: 'සෞන්දර්යාත්මක අවස්ථා',
@@ -156,6 +160,8 @@ const NatureDataCollection = () => {
             submissionSuccess: 'இயற்கை கவனிப்பு வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது!',
             submissionFailed: 'சமர்ப்பித்தல் தோல்வியடைந்தது',
             tryAgain: 'கவனிப்பை சமர்ப்பிக்க தோல்வி. மீண்டும் முயற்சிக்கவும்.',
+            networkIssue: 'நெட்வொர்க் சிக்கல்',
+            networkError: 'இணைப்பை நிறுவ முடியவில்லை. தயவுசெய்து உங்கள் இணைய இணைப்பை சரிபார்க்கவும் மற்றும் மீண்டும் முயற்சிக்கவும்.',
             // Nature types
             naturalEvents: 'இயற்கை நிகழ்வுகள்',
             aesthetics: 'அழகியல்',
@@ -335,8 +341,8 @@ const NatureDataCollection = () => {
                  error.message.includes('fetch'));
             
             setErrorAlertType(isNetworkError ? 'network' : 'error');
-            setErrorAlertTitle(isNetworkError ? 'Network Issue' : lang.submissionFailed);
-            setErrorAlertMessage(error.message || lang.tryAgain);
+            setErrorAlertTitle(isNetworkError ? lang.networkIssue : lang.submissionFailed);
+            setErrorAlertMessage(isNetworkError ? lang.networkError : (error.message || lang.tryAgain));
             setIsErrorAlertVisible(true);
         } finally {
             setIsSubmitting(false);

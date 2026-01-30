@@ -4,12 +4,19 @@ export const animalApi = {
   // Create new animal observation
   createAnimal: async (animalData) => {
     try {
-      console.log('📤 Sending animal data to backend...');
-      console.log('Data size:', JSON.stringify(animalData).length, 'bytes');
+      console.log('📤 Animal Observation Submitted');
+      console.log('Animal Type:', animalData.animalType || 'Unknown');
+      console.log('Category:', animalData.category || 'Unknown');
+      console.log('Date:', animalData.date || 'N/A');
+      console.log('Time of Day:', animalData.timeOfDay || 'N/A');
+      console.log('Description:', animalData.description || 'N/A');
+      console.log('Common Name:', animalData.commonName || 'Not provided');
+      console.log('Scientific Name:', animalData.scientificName || 'Not provided');
+      console.log('Photo Size:', animalData.photo ? JSON.stringify(animalData.photo).length : 0, 'bytes');
       
       const response = await axiosInstance.post('/animals', animalData);
       
-      console.log('✅ Animal observation created successfully');
+      console.log('✅ Animal observation created successfully with ID:', response.data?._id || response.data?.id);
       return response.data;
     } catch (error) {
       console.error('❌ Animal API Error:', error.response?.data || error.message);
@@ -63,7 +70,11 @@ export const animalApi = {
   // Update animal photo information
   updateAnimalPhotoInfo: async (animalId, photoInfo) => {
     try {
-      console.log('📤 Updating animal photo information...');
+      console.log('📤 Updating Animal Photo Information');
+      console.log('Animal ID:', animalId);
+      console.log('Photo Credit:', photoInfo.photoCredit || 'Not provided');
+      console.log('Contact Info:', photoInfo.contactInfo || 'Not provided');
+      console.log('Can Use Photo:', photoInfo.canUsePhoto);
       const response = await axiosInstance.patch(`/animals/${animalId}/photo-info`, photoInfo);
       console.log('✅ Animal photo information updated successfully');
       return response.data;

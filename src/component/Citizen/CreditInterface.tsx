@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, SafeAreaView, Alert, ActivityIndicator, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, SafeAreaView, ActivityIndicator, Platform } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { plantApi } from '../../api/plantapi';
 import { natureApi } from '../../api/natureApi';
 import { animalApi } from '../../api/animalApi';
+import CustomAlert from '../custom-alert/alert-design';
 
 const PhotoInformation = () => {
     const navigation = useNavigation();
@@ -12,6 +13,11 @@ const PhotoInformation = () => {
     const { observationData, observationType } = route.params || {};
     const [currentLanguage, setCurrentLanguage] = useState('en');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isAlertVisible, setIsAlertVisible] = useState(false);
+    const [isErrorAlertVisible, setIsErrorAlertVisible] = useState(false);
+    const [errorAlertType, setErrorAlertType] = useState<'error' | 'network'>('error');
+    const [errorAlertTitle, setErrorAlertTitle] = useState('');
+    const [errorAlertMessage, setErrorAlertMessage] = useState('');
 
     const [contactInfo, setContactInfo] = useState('');
     const [canUsePhoto, setCanUsePhoto] = useState('Yes');
@@ -34,7 +40,14 @@ const PhotoInformation = () => {
             success: 'Success',
             submissionSuccess: 'Photo information saved successfully!',
             submissionFailed: 'Submission Failed',
-            tryAgain: 'Please try again later.'
+            tryAgain: 'Please try again later.',
+            networkIssue: 'Network Issue',
+            networkError: 'Unable to connect. Please check your internet connection and try again.',
+            validationError: 'Validation Error',
+            invalidEmail: 'Please enter a valid email address.',
+            invalidPhone: 'Please enter a valid phone number (at least 10 digits).',
+            invalidContact: 'Please enter a valid email or phone number.',
+            contactRequired: 'Contact information is required when providing photo credit or usage permission.'
         },
         si: {
             headerTitle: 'ඡායාරූපය පිළිබද තොරතුරු',
@@ -52,7 +65,14 @@ const PhotoInformation = () => {
             success: 'සාර්ථකයි',
             submissionSuccess: 'ඡායාරූප තොරතුරු සාර්ථකව සුරකින ලදී!',
             submissionFailed: 'ඉදිරිපත් කිරීම අසාර්ථකයි',
-            tryAgain: 'කරුණාකර පසුව නැවත උත්සාහ කරන්න.'
+            tryAgain: 'කරුණාකර පසුව නැවත උත්සාහ කරන්න.',
+            networkIssue: 'ජාල ගැටලුව',
+            networkError: 'සංයෝගය ස්ථාපිත කිරීමට නොහැකි විය. කරුණාකර ඔබේ අන්තර්ජාල සංයෝගය පරීක්ෂා කරන්න සහ නැවත උත්සාහ කරන්න.',
+            validationError: 'වලංගුතා දෝෂය',
+            invalidEmail: 'කරුණාකර වලංගු විද්‍යුත් තැපැල් ලිපිනයක් ඇතුළු කරන්න.',
+            invalidPhone: 'කරුණාකර වලංගු දුරකථන අංකයක් ඇතුළු කරන්න (අවම වශයෙන් ඉලක්කම් 10).',
+            invalidContact: 'කරුණාකර වලංගු විද්‍යුත් තැපැල් ලිපිනයක් හෝ දුරකථන අංකයක් ඇතුළු කරන්න.',
+            contactRequired: 'ඡායාරූප හිමිකාරිත්වය හෝ භාවිතා කිරීමේ අවසර ලබා දෙන විට සම්බන්ධතා තොරතුරු අවශ්‍ය වේ.'
         },
         ta: {
             headerTitle: 'புகைப்பட தகவல்',
@@ -70,7 +90,14 @@ const PhotoInformation = () => {
             success: 'வெற்றி',
             submissionSuccess: 'புகைப்பட தகவல் வெற்றிகரமாக சேமிக்கப்பட்டது!',
             submissionFailed: 'சமர்ப்பிப்பு தோல்வியடைந்தது',
-            tryAgain: 'பின்னர் மீண்டும் முயற்சிக்கவும்.'
+            tryAgain: 'பின்னர் மீண்டும் முயற்சிக்கவும்.',
+            networkIssue: 'நெட்வொர்க் சிக்கல்',
+            networkError: 'இணைப்பை நிறுவ முடியவில்லை. தயவுசெய்து உங்கள் இணைய இணைப்பை சரிபார்க்கவும் மற்றும் மீண்டும் முயற்சிக்கவும்.',
+            validationError: 'சரிபடுத்தல் பிழை',
+            invalidEmail: 'தயவுசெய்து சரியான மின்னஞ்சல் முகவரி உள்ளிடவும்.',
+            invalidPhone: 'தயவுசெய்து சரியான தொலைபேசி இலக்கத்தை உள்ளிடவும் (குறைந்தபட்சம் 10 இலக்கங்கள்).',
+            invalidContact: 'தயவுசெய்து சரியான மின்னஞ்சல் முகவரி அல்லது தொலைபேசி இலக்கத்தை உள்ளிடவும்.',
+            contactRequired: 'புகைப்பட வரவு அல்லது பயன்பாட்டு அனுமதி வழங்கும் போது தொடர்பு தகவல் தேவை.'
         }
     };
 
@@ -89,7 +116,62 @@ const PhotoInformation = () => {
 
     const t = translations[currentLanguage] || translations.en;
 
+    // Validation functions
+    const validateEmail = (email: string): boolean => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    const validatePhone = (phone: string): boolean => {
+        const phoneRegex = /^\d{10,}$/;
+        return phoneRegex.test(phone.replace(/[^\d]/g, ''));
+    };
+
+    const validateContact = (contact: string, isRequired: boolean): string | null => {
+        // Check if contact is required
+        if (isRequired && (!contact || contact.trim() === '')) {
+            return t.contactRequired;
+        }
+
+        // If not required and empty, validation passes
+        if (!contact || contact.trim() === '') {
+            return null;
+        }
+
+        const trimmedContact = contact.trim();
+        const isEmail = trimmedContact.includes('@');
+        const isPhone = /^\d/.test(trimmedContact);
+
+        if (isEmail) {
+            if (!validateEmail(trimmedContact)) {
+                return t.invalidEmail;
+            }
+        } else if (isPhone) {
+            if (!validatePhone(trimmedContact)) {
+                return t.invalidPhone;
+            }
+        } else {
+            return t.invalidContact;
+        }
+
+        return null; // Valid
+    };
+
     const handleSubmit = async () => {
+        // Determine if contact info is required
+        // Contact is required if photo credit is provided OR user allows photo usage
+        const isContactRequired = (photoCredit && photoCredit.trim() !== '') || canUsePhoto === 'Yes';
+
+        // Validate contact info based on requirement
+        const contactValidationError = validateContact(contactInfo, isContactRequired);
+        if (contactValidationError) {
+            setErrorAlertType('error');
+            setErrorAlertTitle(t.validationError);
+            setErrorAlertMessage(contactValidationError);
+            setIsErrorAlertVisible(true);
+            return;
+        }
+
         setIsSubmitting(true);
         try {
             const photoInfo = {
@@ -112,34 +194,47 @@ const PhotoInformation = () => {
                         await animalApi.updateAnimalPhotoInfo(observationId, photoInfo);
                         break;
                     case 'humanActivity':
-                        console.log('Human activity photo info (no backend):', photoInfo);
+                        // Log actual observation data values
+                        console.log('=== Human Activity Observation Submitted ===');
+                        console.log('Type: Human Activity');
+                        console.log('Photo Credit:', photoCredit || 'Not provided');
+                        console.log('Contact:', contactInfo || 'Not provided');
+                        console.log('Can Use Photo:', canUsePhoto);
+                        console.log('Observation Date:', observationData?.date || 'N/A');
+                        console.log('Time of Day:', observationData?.timeOfDay || 'N/A');
+                        console.log('Description:', observationData?.description || 'N/A');
+                        console.log('=====================================');
                         break;
                     default:
-                        console.log('Unknown observation type:', observationType);
+                        // Log actual observation data values for unknown types
+                        console.log('=== Observation Submitted ===');
+                        console.log('Type:', observationType);
+                        console.log('Photo Credit:', photoCredit || 'Not provided');
+                        console.log('Contact:', contactInfo || 'Not provided');
+                        console.log('Can Use Photo:', canUsePhoto);
+                        if (observationData) {
+                            console.log('Date:', observationData.date || 'N/A');
+                            console.log('Time of Day:', observationData.timeOfDay || 'N/A');
+                            console.log('Description:', observationData.description || 'N/A');
+                        }
+                        console.log('============================');
                 }
             }
 
-            Alert.alert(
-                t.success,
-                t.submissionSuccess,
-                [
-                    {
-                        text: 'OK',
-                        onPress: () => {
-                            navigation.reset({
-                                index: 0,
-                                routes: [{ name: 'CitizenDashboard' }],
-                            });
-                        },
-                    },
-                ]
-            );
+            setIsAlertVisible(true);
         } catch (error) {
+            // Determine if it's a network error
+            const isNetworkError = error.message && 
+                (error.message.includes('Network') || 
+                 error.message.includes('timeout') ||
+                 error.message.includes('fetch'));
+            
+            setErrorAlertType(isNetworkError ? 'network' : 'error');
+            setErrorAlertTitle(isNetworkError ? t.networkIssue : t.submissionFailed);
+            setErrorAlertMessage(isNetworkError ? t.networkError : (error.message || t.tryAgain));
+            setIsErrorAlertVisible(true);
+            
             console.error('Error submitting photo information:', error);
-            Alert.alert(
-                t.submissionFailed,
-                error.message || t.tryAgain
-            );
         } finally {
             setIsSubmitting(false);
         }
@@ -227,6 +322,32 @@ const PhotoInformation = () => {
                     </View>
                 </View>
             </ScrollView>
+
+            {/* Success Alert */}
+            <CustomAlert
+                visible={isAlertVisible}
+                onClose={() => {
+                    setIsAlertVisible(false);
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'CitizenDashboard' }],
+                    });
+                }}
+                type="success"
+                title={t.success}
+                message={t.submissionSuccess}
+                language={currentLanguage as 'en' | 'si' | 'ta'}
+            />
+
+            {/* Error/Network Alert */}
+            <CustomAlert
+                visible={isErrorAlertVisible}
+                onClose={() => setIsErrorAlertVisible(false)}
+                type={errorAlertType}
+                title={errorAlertTitle}
+                message={errorAlertMessage}
+                language={currentLanguage as 'en' | 'si' | 'ta'}
+            />
         </SafeAreaView>
     );
 }
