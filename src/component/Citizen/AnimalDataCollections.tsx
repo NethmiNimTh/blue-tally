@@ -187,7 +187,7 @@ const AnimalDataCollection = () => {
             reptile: 'ஊர்வன',
             amphibian: 'இருவாழ்விகள்',
             fish: 'மீன்கள்',
-            annelidBivalve: 'புழுக்கள் மற்றும் இருவால்விகள்',
+            annelidBivalve: 'புழுக்கள் மற்றும் இருவோட்டுடலிகள்(சிப்பி)',
             butterflyMoth: 'பட்டாம்பூச்சி அல்லது அந்துப்பூச்சி',
             dragonfly: 'தும்பி அல்லது ஊசித்தும்பி',
             spider: 'சிலந்தி',

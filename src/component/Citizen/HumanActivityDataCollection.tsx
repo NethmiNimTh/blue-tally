@@ -30,7 +30,7 @@ const HumanActivityDataCollection = () => {
     // Translation object
     const translations = {
         en: {
-            title: 'Human Activity',
+            title: 'Threats & Human Activities',
             activityType: 'Activity Type',
             selectActivityType: 'Select activity type',
             photo: 'Photo',
@@ -67,8 +67,8 @@ const HumanActivityDataCollection = () => {
             night: 'Night'
         },
         si: {
-            title: 'මානව ක්‍රියාකාරකම්',
-            activityType: 'මානව ක්‍රියාකාරකම් කාණ්ඩය',
+            title: 'තර්ජන සහ මානව ක්‍රියාකාරකම්',
+            activityType: ' ක්‍රියාකාරකම් කාණ්ඩය',
             selectActivityType: 'ක්‍රියාකාරකම් කාණ්ඩය තෝරන්න',
             photo: 'ඡායාරූපය',
             date: 'දිනය',
@@ -105,7 +105,7 @@ const HumanActivityDataCollection = () => {
             night: 'රාත්‍රිය'
         },
         ta: {
-            title: 'மனித செயற்பாடுகள்',
+            title: 'அச்சுறுத்தல்கள் மற்றும் மனித செயற்பாடுகள்',
             activityType: 'செயற்பாட்டு வகை',
             selectActivityType: 'செயற்பாட்டு வகையைத் தேர்ந்தெடுக்கவும்',
             photo: 'புகைப்படம்',
@@ -597,6 +597,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Times New Roman',
         color: '#4A7856',
         fontWeight: 'bold',
+        textAlign:'center'
     },
     formContainer: {
         paddingHorizontal: 20,
